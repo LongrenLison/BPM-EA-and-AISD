@@ -1,7 +1,273 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_Treatment" targetNamespace="http://hospital.example/bpmn">
-<bpmn:collaboration id="Collab_Treatment"><bpmn:participant id="Hospital_Treatment" name="Hospital Patient Administration System" processRef="Process_Treatment"/><bpmn:participant id="Patient_Treatment" name="Patient"/><bpmn:participant id="External_Treatment" name="External treatment and laboratory services"/><bpmn:participant id="PSP" name="External payment service provider"/></bpmn:collaboration>
-<bpmn:process id="Process_Treatment" name="Treatment booking and funding" isExecutable="true"><bpmn:laneSet id="Lanes_Treatment"><bpmn:lane id="LT_Clinical" name="Consultant and authorised clinical professionals"><bpmn:flowNodeRef>S_Treatment</bpmn:flowNodeRef><bpmn:flowNodeRef>AuthoriseRequest</bpmn:flowNodeRef><bpmn:flowNodeRef>RequestAuthorised</bpmn:flowNodeRef><bpmn:flowNodeRef>UrgentOverride</bpmn:flowNodeRef><bpmn:flowNodeRef>E_Invalid</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="LT_Booking" name="Treatment and Chemotherapy Bookings Team"><bpmn:flowNodeRef>CheckCapacity</bpmn:flowNodeRef><bpmn:flowNodeRef>PendingExternal</bpmn:flowNodeRef><bpmn:flowNodeRef>RetryCapacity</bpmn:flowNodeRef><bpmn:flowNodeRef>ConfirmTreatment</bpmn:flowNodeRef><bpmn:flowNodeRef>E_Confirmed</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="LT_Finance" name="Finance Team"><bpmn:flowNodeRef>AssessFunding</bpmn:flowNodeRef><bpmn:flowNodeRef>FundingDecision</bpmn:flowNodeRef><bpmn:flowNodeRef>PaymentNeeded</bpmn:flowNodeRef><bpmn:flowNodeRef>TakePayment</bpmn:flowNodeRef><bpmn:flowNodeRef>PaymentOutcome</bpmn:flowNodeRef><bpmn:flowNodeRef>InvestigatePayment</bpmn:flowNodeRef><bpmn:flowNodeRef>NotifyPaymentIssue</bpmn:flowNodeRef><bpmn:flowNodeRef>E_Investigation</bpmn:flowNodeRef></bpmn:lane></bpmn:laneSet>
-<bpmn:startEvent id="S_Treatment" name="Treatment booking request"/><bpmn:userTask id="AuthoriseRequest" name="Record consent and authorise request"/><bpmn:exclusiveGateway id="RequestAuthorised" name="Request authorised?"/><bpmn:endEvent id="E_Invalid" name="Unauthorised request stopped"/><bpmn:serviceTask id="CheckCapacity" name="Check treatment capacity"><bpmn:extensionElements><zeebe:taskDefinition type="treatment.capacity-check"/></bpmn:extensionElements></bpmn:serviceTask><bpmn:boundaryEvent id="ExternalUnavailable" attachedToRef="CheckCapacity" name="External service unavailable"><bpmn:errorEventDefinition/></bpmn:boundaryEvent><bpmn:userTask id="PendingExternal" name="Record pending booking and notify owner"/><bpmn:intermediateCatchEvent id="RetryCapacity" name="Retry after service recovery"><bpmn:timerEventDefinition><bpmn:timeDuration>PT30M</bpmn:timeDuration></bpmn:timerEventDefinition></bpmn:intermediateCatchEvent><bpmn:serviceTask id="AssessFunding" name="Assess funding arrangement"><bpmn:extensionElements><zeebe:taskDefinition type="funding.assess"/></bpmn:extensionElements></bpmn:serviceTask><bpmn:userTask id="FundingDecision" name="Record funding approval or limitation"/><bpmn:exclusiveGateway id="PaymentNeeded" name="Advance payment required?"/><bpmn:serviceTask id="TakePayment" name="Request secure payment"><bpmn:extensionElements><zeebe:taskDefinition type="payment.request"/></bpmn:extensionElements></bpmn:serviceTask><bpmn:exclusiveGateway id="PaymentOutcome" name="Payment outcome"/><bpmn:userTask id="InvestigatePayment" name="Investigate missing provider confirmation"/><bpmn:endEvent id="E_Investigation" name="Payment under investigation"/><bpmn:userTask id="NotifyPaymentIssue" name="Notify patient and responsible team"/><bpmn:userTask id="UrgentOverride" name="Authorise urgent treatment override"/><bpmn:userTask id="ConfirmTreatment" name="Confirm treatment appointments"/><bpmn:endEvent id="E_Confirmed" name="Treatment confirmed"/>
-<bpmn:sequenceFlow id="T1" sourceRef="S_Treatment" targetRef="AuthoriseRequest"/><bpmn:sequenceFlow id="T2" sourceRef="AuthoriseRequest" targetRef="RequestAuthorised"/><bpmn:sequenceFlow id="T_Valid" name="yes" sourceRef="RequestAuthorised" targetRef="CheckCapacity"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=treatmentRequestAuthorised</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="T_Invalid" name="no" sourceRef="RequestAuthorised" targetRef="E_Invalid"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(treatmentRequestAuthorised)</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="T3" sourceRef="CheckCapacity" targetRef="AssessFunding"/><bpmn:sequenceFlow id="T_Error" sourceRef="ExternalUnavailable" targetRef="PendingExternal"/><bpmn:sequenceFlow id="T4" sourceRef="PendingExternal" targetRef="RetryCapacity"/><bpmn:sequenceFlow id="T5" sourceRef="RetryCapacity" targetRef="CheckCapacity"/><bpmn:sequenceFlow id="T6" sourceRef="AssessFunding" targetRef="FundingDecision"/><bpmn:sequenceFlow id="T7" sourceRef="FundingDecision" targetRef="PaymentNeeded"/><bpmn:sequenceFlow id="T_Funded" name="no payment" sourceRef="PaymentNeeded" targetRef="ConfirmTreatment"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(advancePaymentRequired)</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="T_Pay" name="payment required" sourceRef="PaymentNeeded" targetRef="TakePayment"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=advancePaymentRequired</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="T8" sourceRef="TakePayment" targetRef="PaymentOutcome"/><bpmn:sequenceFlow id="T_Success" name="completed" sourceRef="PaymentOutcome" targetRef="ConfirmTreatment"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=paymentStatus = "completed"</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="T_Investigate" name="confirmation missing" sourceRef="PaymentOutcome" targetRef="InvestigatePayment"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=paymentStatus = "investigate"</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="T9" sourceRef="InvestigatePayment" targetRef="E_Investigation"/><bpmn:sequenceFlow id="T_Fail" name="declined or cancelled" sourceRef="PaymentOutcome" targetRef="NotifyPaymentIssue"/><bpmn:sequenceFlow id="T10" sourceRef="NotifyPaymentIssue" targetRef="TakePayment"/><bpmn:sequenceFlow id="T_Urgent" name="urgent clinical risk" sourceRef="PaymentOutcome" targetRef="UrgentOverride"/><bpmn:sequenceFlow id="T11" sourceRef="UrgentOverride" targetRef="ConfirmTreatment"/><bpmn:sequenceFlow id="T12" sourceRef="ConfirmTreatment" targetRef="E_Confirmed"/></bpmn:process>
-<bpmndi:BPMNDiagram id="Diagram_Treatment"><bpmndi:BPMNPlane id="Plane_Treatment" bpmnElement="Collab_Treatment"><bpmndi:BPMNShape id="PoolT" bpmnElement="Hospital_Treatment" isHorizontal="true"><dc:Bounds x="70" y="80" width="1900" height="480"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneTC" bpmnElement="LT_Clinical"><dc:Bounds x="100" y="80" width="1870" height="160"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneTB" bpmnElement="LT_Booking"><dc:Bounds x="100" y="240" width="1870" height="160"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneTF" bpmnElement="LT_Finance"><dc:Bounds x="100" y="400" width="1870" height="160"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="PoolTP" bpmnElement="Patient_Treatment" isHorizontal="true"><dc:Bounds x="70" y="590" width="1900" height="70"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="PoolTE" bpmnElement="External_Treatment" isHorizontal="true"><dc:Bounds x="70" y="680" width="1900" height="70"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="PoolPSP" bpmnElement="PSP" isHorizontal="true"><dc:Bounds x="70" y="770" width="1900" height="70"/></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>
+  <bpmn:collaboration id="Collab_Treatment">
+    <bpmn:participant id="Hospital_Treatment" name="Hospital Patient Administration System" processRef="Process_Treatment" />
+    <bpmn:participant id="Patient_Treatment" name="Patient" />
+    <bpmn:participant id="External_Treatment" name="External treatment and laboratory services" />
+    <bpmn:participant id="PSP" name="External payment service provider" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Treatment" name="Treatment booking and funding" isExecutable="true">
+    <bpmn:laneSet id="Lanes_Treatment">
+      <bpmn:lane id="LT_Clinical" name="Consultant and authorised clinical professionals">
+        <bpmn:flowNodeRef>S_Treatment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AuthoriseRequest</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RequestAuthorised</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UrgentOverride</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>E_Invalid</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="LT_Booking" name="Treatment and Chemotherapy Bookings Team">
+        <bpmn:flowNodeRef>CheckCapacity</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PendingExternal</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RetryCapacity</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ConfirmTreatment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>E_Confirmed</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="LT_Finance" name="Finance Team">
+        <bpmn:flowNodeRef>AssessFunding</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FundingDecision</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PaymentNeeded</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TakePayment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PaymentOutcome</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InvestigatePayment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NotifyPaymentIssue</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>E_Investigation</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="S_Treatment" name="Treatment booking request" />
+    <bpmn:userTask id="AuthoriseRequest" name="Record consent and authorise request" />
+    <bpmn:exclusiveGateway id="RequestAuthorised" name="Request authorised?" />
+    <bpmn:endEvent id="E_Invalid" name="Unauthorised request stopped" />
+    <bpmn:serviceTask id="CheckCapacity" name="Check treatment capacity">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="treatment.capacity-check" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="ExternalUnavailable" attachedToRef="CheckCapacity" name="External service unavailable">
+      <bpmn:errorEventDefinition />
+    </bpmn:boundaryEvent>
+    <bpmn:userTask id="PendingExternal" name="Record pending booking and notify owner" />
+    <bpmn:intermediateCatchEvent id="RetryCapacity" name="Retry after service recovery">
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration>PT30M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="AssessFunding" name="Assess funding arrangement">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="funding.assess" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="FundingDecision" name="Record funding approval or limitation" />
+    <bpmn:exclusiveGateway id="PaymentNeeded" name="Advance payment required?" />
+    <bpmn:serviceTask id="TakePayment" name="Request secure payment">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="payment.request" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="PaymentOutcome" name="Payment outcome" />
+    <bpmn:userTask id="InvestigatePayment" name="Investigate missing provider confirmation" />
+    <bpmn:endEvent id="E_Investigation" name="Payment under investigation" />
+    <bpmn:userTask id="NotifyPaymentIssue" name="Notify patient and responsible team" />
+    <bpmn:userTask id="UrgentOverride" name="Authorise urgent treatment override" />
+    <bpmn:userTask id="ConfirmTreatment" name="Confirm treatment appointments" />
+    <bpmn:endEvent id="E_Confirmed" name="Treatment confirmed" />
+    <bpmn:sequenceFlow id="T1" sourceRef="S_Treatment" targetRef="AuthoriseRequest" />
+    <bpmn:sequenceFlow id="T2" sourceRef="AuthoriseRequest" targetRef="RequestAuthorised" />
+    <bpmn:sequenceFlow id="T_Valid" name="yes" sourceRef="RequestAuthorised" targetRef="CheckCapacity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=treatmentRequestAuthorised</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="T_Invalid" name="no" sourceRef="RequestAuthorised" targetRef="E_Invalid">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(treatmentRequestAuthorised)</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="T3" sourceRef="CheckCapacity" targetRef="AssessFunding" />
+    <bpmn:sequenceFlow id="T_Error" sourceRef="ExternalUnavailable" targetRef="PendingExternal" />
+    <bpmn:sequenceFlow id="T4" sourceRef="PendingExternal" targetRef="RetryCapacity" />
+    <bpmn:sequenceFlow id="T5" sourceRef="RetryCapacity" targetRef="CheckCapacity" />
+    <bpmn:sequenceFlow id="T6" sourceRef="AssessFunding" targetRef="FundingDecision" />
+    <bpmn:sequenceFlow id="T7" sourceRef="FundingDecision" targetRef="PaymentNeeded" />
+    <bpmn:sequenceFlow id="T_Funded" name="no payment" sourceRef="PaymentNeeded" targetRef="ConfirmTreatment">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(advancePaymentRequired)</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="T_Pay" name="payment required" sourceRef="PaymentNeeded" targetRef="TakePayment">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=advancePaymentRequired</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="T8" sourceRef="TakePayment" targetRef="PaymentOutcome" />
+    <bpmn:sequenceFlow id="T_Success" name="completed" sourceRef="PaymentOutcome" targetRef="ConfirmTreatment">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=paymentStatus = "completed"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="T_Investigate" name="confirmation missing" sourceRef="PaymentOutcome" targetRef="InvestigatePayment">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=paymentStatus = "investigate"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="T9" sourceRef="InvestigatePayment" targetRef="E_Investigation" />
+    <bpmn:sequenceFlow id="T_Fail" name="declined or cancelled" sourceRef="PaymentOutcome" targetRef="NotifyPaymentIssue" />
+    <bpmn:sequenceFlow id="T10" sourceRef="NotifyPaymentIssue" targetRef="TakePayment" />
+    <bpmn:sequenceFlow id="T_Urgent" name="urgent clinical risk" sourceRef="PaymentOutcome" targetRef="UrgentOverride" />
+    <bpmn:sequenceFlow id="T11" sourceRef="UrgentOverride" targetRef="ConfirmTreatment" />
+    <bpmn:sequenceFlow id="T12" sourceRef="ConfirmTreatment" targetRef="E_Confirmed" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Treatment">
+    <bpmndi:BPMNPlane id="Plane_Treatment" bpmnElement="Collab_Treatment">
+      <bpmndi:BPMNShape id="PoolT" bpmnElement="Hospital_Treatment" isHorizontal="true">
+        <dc:Bounds x="70" y="80" width="3900" height="480" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneTC" bpmnElement="LT_Clinical">
+        <dc:Bounds x="100" y="80" width="3900" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneTB" bpmnElement="LT_Booking">
+        <dc:Bounds x="100" y="240" width="3900" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneTF" bpmnElement="LT_Finance">
+        <dc:Bounds x="100" y="400" width="3900" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PoolTP" bpmnElement="Patient_Treatment" isHorizontal="true">
+        <dc:Bounds x="70" y="590" width="3900" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PoolTE" bpmnElement="External_Treatment" isHorizontal="true">
+        <dc:Bounds x="70" y="680" width="3900" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PoolPSP" bpmnElement="PSP" isHorizontal="true">
+        <dc:Bounds x="70" y="770" width="3900" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Treatment_di" bpmnElement="S_Treatment">
+        <dc:Bounds x="150" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AuthoriseRequest_di" bpmnElement="AuthoriseRequest">
+        <dc:Bounds x="300" y="125" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="RequestAuthorised_di" bpmnElement="RequestAuthorised">
+        <dc:Bounds x="450" y="135" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Invalid_di" bpmnElement="E_Invalid">
+        <dc:Bounds x="600" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CheckCapacity_di" bpmnElement="CheckCapacity">
+        <dc:Bounds x="750" y="285" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExternalUnavailable_di" bpmnElement="ExternalUnavailable">
+        <dc:Bounds x="850" y="267" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PendingExternal_di" bpmnElement="PendingExternal">
+        <dc:Bounds x="1050" y="285" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="RetryCapacity_di" bpmnElement="RetryCapacity">
+        <dc:Bounds x="1200" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AssessFunding_di" bpmnElement="AssessFunding">
+        <dc:Bounds x="1350" y="445" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="FundingDecision_di" bpmnElement="FundingDecision">
+        <dc:Bounds x="1500" y="445" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PaymentNeeded_di" bpmnElement="PaymentNeeded">
+        <dc:Bounds x="1650" y="455" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TakePayment_di" bpmnElement="TakePayment">
+        <dc:Bounds x="1800" y="445" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PaymentOutcome_di" bpmnElement="PaymentOutcome">
+        <dc:Bounds x="1950" y="455" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="InvestigatePayment_di" bpmnElement="InvestigatePayment">
+        <dc:Bounds x="2100" y="445" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Investigation_di" bpmnElement="E_Investigation">
+        <dc:Bounds x="2250" y="462" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotifyPaymentIssue_di" bpmnElement="NotifyPaymentIssue">
+        <dc:Bounds x="2400" y="445" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UrgentOverride_di" bpmnElement="UrgentOverride">
+        <dc:Bounds x="2550" y="125" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ConfirmTreatment_di" bpmnElement="ConfirmTreatment">
+        <dc:Bounds x="2700" y="285" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Confirmed_di" bpmnElement="E_Confirmed">
+        <dc:Bounds x="2850" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="T1_di" bpmnElement="T1">
+        <di:waypoint x="186" y="160" />
+        <di:waypoint x="300" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T2_di" bpmnElement="T2">
+        <di:waypoint x="420" y="160" />
+        <di:waypoint x="450" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Valid_di" bpmnElement="T_Valid">
+        <di:waypoint x="500" y="160" />
+        <di:waypoint x="750" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Invalid_di" bpmnElement="T_Invalid">
+        <di:waypoint x="500" y="160" />
+        <di:waypoint x="600" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T3_di" bpmnElement="T3">
+        <di:waypoint x="870" y="320" />
+        <di:waypoint x="1350" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Error_di" bpmnElement="T_Error">
+        <di:waypoint x="886" y="285" />
+        <di:waypoint x="1050" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T4_di" bpmnElement="T4">
+        <di:waypoint x="1170" y="320" />
+        <di:waypoint x="1200" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T5_di" bpmnElement="T5">
+        <di:waypoint x="1236" y="320" />
+        <di:waypoint x="750" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T6_di" bpmnElement="T6">
+        <di:waypoint x="1470" y="480" />
+        <di:waypoint x="1500" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T7_di" bpmnElement="T7">
+        <di:waypoint x="1620" y="480" />
+        <di:waypoint x="1650" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Funded_di" bpmnElement="T_Funded">
+        <di:waypoint x="1700" y="480" />
+        <di:waypoint x="2700" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Pay_di" bpmnElement="T_Pay">
+        <di:waypoint x="1700" y="480" />
+        <di:waypoint x="1800" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T8_di" bpmnElement="T8">
+        <di:waypoint x="1920" y="480" />
+        <di:waypoint x="1950" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Success_di" bpmnElement="T_Success">
+        <di:waypoint x="2000" y="480" />
+        <di:waypoint x="2700" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Investigate_di" bpmnElement="T_Investigate">
+        <di:waypoint x="2000" y="480" />
+        <di:waypoint x="2100" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T9_di" bpmnElement="T9">
+        <di:waypoint x="2220" y="480" />
+        <di:waypoint x="2250" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Fail_di" bpmnElement="T_Fail">
+        <di:waypoint x="2000" y="480" />
+        <di:waypoint x="2400" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T10_di" bpmnElement="T10">
+        <di:waypoint x="2520" y="480" />
+        <di:waypoint x="1800" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T_Urgent_di" bpmnElement="T_Urgent">
+        <di:waypoint x="2000" y="480" />
+        <di:waypoint x="2550" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T11_di" bpmnElement="T11">
+        <di:waypoint x="2670" y="160" />
+        <di:waypoint x="2700" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="T12_di" bpmnElement="T12">
+        <di:waypoint x="2820" y="320" />
+        <di:waypoint x="2850" y="320" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

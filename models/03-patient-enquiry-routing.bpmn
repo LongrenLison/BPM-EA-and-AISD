@@ -1,7 +1,171 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_Enquiry" targetNamespace="http://hospital.example/bpmn">
-<bpmn:message id="Message_Enquiry" name="Patient enquiry"/><bpmn:collaboration id="Collab_Enquiry"><bpmn:participant id="Hospital_Enquiry" name="Hospital Patient Administration System" processRef="Process_Enquiry"/><bpmn:participant id="Patient_Enquiry" name="Patient or authorised representative"/></bpmn:collaboration>
-<bpmn:process id="Process_Enquiry" name="Patient enquiry routing" isExecutable="true"><bpmn:laneSet id="Lanes_Enquiry"><bpmn:lane id="LE_Call" name="Call Handling Team"><bpmn:flowNodeRef>S_Enquiry</bpmn:flowNodeRef><bpmn:flowNodeRef>RecordClassify</bpmn:flowNodeRef><bpmn:flowNodeRef>EnquiryType</bpmn:flowNodeRef><bpmn:flowNodeRef>AnswerAdmin</bpmn:flowNodeRef><bpmn:flowNodeRef>NotifyResolution</bpmn:flowNodeRef><bpmn:flowNodeRef>E_Resolved</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="LE_CNS" name="Clinical Nurse Specialist Team"><bpmn:flowNodeRef>ClinicalTriage</bpmn:flowNodeRef><bpmn:flowNodeRef>ProvideClinicalAdvice</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="LE_CNSAdmin" name="Clinical Nurse Specialist Administrative Support"><bpmn:flowNodeRef>RecordSupportContact</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="LE_Finance" name="Finance Team"><bpmn:flowNodeRef>AnswerFundingQuery</bpmn:flowNodeRef></bpmn:lane><bpmn:lane id="LE_Outpatients" name="Outpatient Bookings Team"><bpmn:flowNodeRef>ResolveAppointmentQuery</bpmn:flowNodeRef></bpmn:lane></bpmn:laneSet>
-<bpmn:startEvent id="S_Enquiry" name="Enquiry received"><bpmn:messageEventDefinition messageRef="Message_Enquiry"/></bpmn:startEvent><bpmn:userTask id="RecordClassify" name="Record, classify and assign priority"/><bpmn:exclusiveGateway id="EnquiryType" name="Enquiry type?"/><bpmn:userTask id="AnswerAdmin" name="Answer authorised administrative query"/><bpmn:userTask id="ResolveAppointmentQuery" name="Resolve appointment query"/><bpmn:userTask id="AnswerFundingQuery" name="Answer funding or payment query"/><bpmn:userTask id="ClinicalTriage" name="Triage clinical concern"/><bpmn:userTask id="ProvideClinicalAdvice" name="Provide authorised clinical response"/><bpmn:userTask id="RecordSupportContact" name="Record specialist support contact"/><bpmn:userTask id="NotifyResolution" name="Record response and notify patient"/><bpmn:endEvent id="E_Resolved" name="Enquiry resolved"/>
-<bpmn:sequenceFlow id="Q1" sourceRef="S_Enquiry" targetRef="RecordClassify"/><bpmn:sequenceFlow id="Q2" sourceRef="RecordClassify" targetRef="EnquiryType"/><bpmn:sequenceFlow id="Q_Admin" name="administrative" sourceRef="EnquiryType" targetRef="AnswerAdmin"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=enquiryType = "administrative"</bpmn:conditionExpression></bpmn:sequenceFlow><bpmn:sequenceFlow id="Q_Appt" name="appointment" sourceRef="EnquiryType" targetRef="ResolveAppointmentQuery"/><bpmn:sequenceFlow id="Q_Finance" name="financial" sourceRef="EnquiryType" targetRef="AnswerFundingQuery"/><bpmn:sequenceFlow id="Q_Clinical" name="clinical including urgent" sourceRef="EnquiryType" targetRef="ClinicalTriage"/><bpmn:sequenceFlow id="Q3" sourceRef="ClinicalTriage" targetRef="ProvideClinicalAdvice"/><bpmn:sequenceFlow id="Q4" sourceRef="ProvideClinicalAdvice" targetRef="RecordSupportContact"/><bpmn:sequenceFlow id="Q5" sourceRef="AnswerAdmin" targetRef="NotifyResolution"/><bpmn:sequenceFlow id="Q6" sourceRef="ResolveAppointmentQuery" targetRef="NotifyResolution"/><bpmn:sequenceFlow id="Q7" sourceRef="AnswerFundingQuery" targetRef="NotifyResolution"/><bpmn:sequenceFlow id="Q8" sourceRef="RecordSupportContact" targetRef="NotifyResolution"/><bpmn:sequenceFlow id="Q9" sourceRef="NotifyResolution" targetRef="E_Resolved"/></bpmn:process>
-<bpmndi:BPMNDiagram id="Diagram_Enquiry"><bpmndi:BPMNPlane id="Plane_Enquiry" bpmnElement="Collab_Enquiry"><bpmndi:BPMNShape id="PoolQ" bpmnElement="Hospital_Enquiry" isHorizontal="true"><dc:Bounds x="70" y="80" width="1450" height="600"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneQC" bpmnElement="LE_Call"><dc:Bounds x="100" y="80" width="1420" height="120"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneQN" bpmnElement="LE_CNS"><dc:Bounds x="100" y="200" width="1420" height="120"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneQNA" bpmnElement="LE_CNSAdmin"><dc:Bounds x="100" y="320" width="1420" height="120"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneQF" bpmnElement="LE_Finance"><dc:Bounds x="100" y="440" width="1420" height="120"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="LaneQO" bpmnElement="LE_Outpatients"><dc:Bounds x="100" y="560" width="1420" height="120"/></bpmndi:BPMNShape><bpmndi:BPMNShape id="PoolQP" bpmnElement="Patient_Enquiry" isHorizontal="true"><dc:Bounds x="70" y="710" width="1450" height="70"/></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>
+  <bpmn:message id="Message_Enquiry" name="Patient enquiry" />
+  <bpmn:collaboration id="Collab_Enquiry">
+    <bpmn:participant id="Hospital_Enquiry" name="Hospital Patient Administration System" processRef="Process_Enquiry" />
+    <bpmn:participant id="Patient_Enquiry" name="Patient or authorised representative" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Enquiry" name="Patient enquiry routing" isExecutable="true">
+    <bpmn:laneSet id="Lanes_Enquiry">
+      <bpmn:lane id="LE_Call" name="Call Handling Team">
+        <bpmn:flowNodeRef>S_Enquiry</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>RecordClassify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EnquiryType</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AnswerAdmin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>NotifyResolution</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>E_Resolved</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="LE_CNS" name="Clinical Nurse Specialist Team">
+        <bpmn:flowNodeRef>ClinicalTriage</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProvideClinicalAdvice</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="LE_CNSAdmin" name="Clinical Nurse Specialist Administrative Support">
+        <bpmn:flowNodeRef>RecordSupportContact</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="LE_Finance" name="Finance Team">
+        <bpmn:flowNodeRef>AnswerFundingQuery</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="LE_Outpatients" name="Outpatient Bookings Team">
+        <bpmn:flowNodeRef>ResolveAppointmentQuery</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="S_Enquiry" name="Enquiry received">
+      <bpmn:messageEventDefinition messageRef="Message_Enquiry" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="RecordClassify" name="Record, classify and assign priority" />
+    <bpmn:exclusiveGateway id="EnquiryType" name="Enquiry type?" />
+    <bpmn:userTask id="AnswerAdmin" name="Answer authorised administrative query" />
+    <bpmn:userTask id="ResolveAppointmentQuery" name="Resolve appointment query" />
+    <bpmn:userTask id="AnswerFundingQuery" name="Answer funding or payment query" />
+    <bpmn:userTask id="ClinicalTriage" name="Triage clinical concern" />
+    <bpmn:userTask id="ProvideClinicalAdvice" name="Provide authorised clinical response" />
+    <bpmn:userTask id="RecordSupportContact" name="Record specialist support contact" />
+    <bpmn:userTask id="NotifyResolution" name="Record response and notify patient" />
+    <bpmn:endEvent id="E_Resolved" name="Enquiry resolved" />
+    <bpmn:sequenceFlow id="Q1" sourceRef="S_Enquiry" targetRef="RecordClassify" />
+    <bpmn:sequenceFlow id="Q2" sourceRef="RecordClassify" targetRef="EnquiryType" />
+    <bpmn:sequenceFlow id="Q_Admin" name="administrative" sourceRef="EnquiryType" targetRef="AnswerAdmin">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=enquiryType = "administrative"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Q_Appt" name="appointment" sourceRef="EnquiryType" targetRef="ResolveAppointmentQuery" />
+    <bpmn:sequenceFlow id="Q_Finance" name="financial" sourceRef="EnquiryType" targetRef="AnswerFundingQuery" />
+    <bpmn:sequenceFlow id="Q_Clinical" name="clinical including urgent" sourceRef="EnquiryType" targetRef="ClinicalTriage" />
+    <bpmn:sequenceFlow id="Q3" sourceRef="ClinicalTriage" targetRef="ProvideClinicalAdvice" />
+    <bpmn:sequenceFlow id="Q4" sourceRef="ProvideClinicalAdvice" targetRef="RecordSupportContact" />
+    <bpmn:sequenceFlow id="Q5" sourceRef="AnswerAdmin" targetRef="NotifyResolution" />
+    <bpmn:sequenceFlow id="Q6" sourceRef="ResolveAppointmentQuery" targetRef="NotifyResolution" />
+    <bpmn:sequenceFlow id="Q7" sourceRef="AnswerFundingQuery" targetRef="NotifyResolution" />
+    <bpmn:sequenceFlow id="Q8" sourceRef="RecordSupportContact" targetRef="NotifyResolution" />
+    <bpmn:sequenceFlow id="Q9" sourceRef="NotifyResolution" targetRef="E_Resolved" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Enquiry">
+    <bpmndi:BPMNPlane id="Plane_Enquiry" bpmnElement="Collab_Enquiry">
+      <bpmndi:BPMNShape id="PoolQ" bpmnElement="Hospital_Enquiry" isHorizontal="true">
+        <dc:Bounds x="70" y="80" width="3900" height="600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneQC" bpmnElement="LE_Call">
+        <dc:Bounds x="100" y="80" width="3900" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneQN" bpmnElement="LE_CNS">
+        <dc:Bounds x="100" y="200" width="3900" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneQNA" bpmnElement="LE_CNSAdmin">
+        <dc:Bounds x="100" y="320" width="3900" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneQF" bpmnElement="LE_Finance">
+        <dc:Bounds x="100" y="440" width="3900" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LaneQO" bpmnElement="LE_Outpatients">
+        <dc:Bounds x="100" y="560" width="3900" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PoolQP" bpmnElement="Patient_Enquiry" isHorizontal="true">
+        <dc:Bounds x="70" y="710" width="3900" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Enquiry_di" bpmnElement="S_Enquiry">
+        <dc:Bounds x="150" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="RecordClassify_di" bpmnElement="RecordClassify">
+        <dc:Bounds x="300" y="105" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EnquiryType_di" bpmnElement="EnquiryType">
+        <dc:Bounds x="450" y="115" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AnswerAdmin_di" bpmnElement="AnswerAdmin">
+        <dc:Bounds x="600" y="105" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ResolveAppointmentQuery_di" bpmnElement="ResolveAppointmentQuery">
+        <dc:Bounds x="750" y="585" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AnswerFundingQuery_di" bpmnElement="AnswerFundingQuery">
+        <dc:Bounds x="900" y="465" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ClinicalTriage_di" bpmnElement="ClinicalTriage">
+        <dc:Bounds x="1050" y="225" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ProvideClinicalAdvice_di" bpmnElement="ProvideClinicalAdvice">
+        <dc:Bounds x="1200" y="225" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="RecordSupportContact_di" bpmnElement="RecordSupportContact">
+        <dc:Bounds x="1350" y="345" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NotifyResolution_di" bpmnElement="NotifyResolution">
+        <dc:Bounds x="1500" y="105" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Resolved_di" bpmnElement="E_Resolved">
+        <dc:Bounds x="1650" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Q1_di" bpmnElement="Q1">
+        <di:waypoint x="186" y="140" />
+        <di:waypoint x="300" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q2_di" bpmnElement="Q2">
+        <di:waypoint x="420" y="140" />
+        <di:waypoint x="450" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q_Admin_di" bpmnElement="Q_Admin">
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="600" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q_Appt_di" bpmnElement="Q_Appt">
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="750" y="620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q_Finance_di" bpmnElement="Q_Finance">
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="900" y="500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q_Clinical_di" bpmnElement="Q_Clinical">
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="1050" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q3_di" bpmnElement="Q3">
+        <di:waypoint x="1170" y="260" />
+        <di:waypoint x="1200" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q4_di" bpmnElement="Q4">
+        <di:waypoint x="1320" y="260" />
+        <di:waypoint x="1350" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q5_di" bpmnElement="Q5">
+        <di:waypoint x="720" y="140" />
+        <di:waypoint x="1500" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q6_di" bpmnElement="Q6">
+        <di:waypoint x="870" y="620" />
+        <di:waypoint x="1500" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q7_di" bpmnElement="Q7">
+        <di:waypoint x="1020" y="500" />
+        <di:waypoint x="1500" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q8_di" bpmnElement="Q8">
+        <di:waypoint x="1470" y="380" />
+        <di:waypoint x="1500" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Q9_di" bpmnElement="Q9">
+        <di:waypoint x="1620" y="140" />
+        <di:waypoint x="1650" y="140" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
