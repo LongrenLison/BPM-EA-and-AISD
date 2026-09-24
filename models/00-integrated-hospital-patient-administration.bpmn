@@ -5,7 +5,7 @@
   <bpmn:collaboration id="Collaboration_IntegratedHospital">
     <bpmn:participant id="Participant_Hospital" name="Hospital Patient Administration System" processRef="Process_HospitalAdministration" />
     <bpmn:participant id="Participant_1sc4nts" name="Patient or authorised representative" processRef="Process_0w6eap2" />
-    <bpmn:messageFlow id="MF_ReferralReceived" sourceRef="Participant_1sc4nts" targetRef="Start_Journey" messageRef="Message_ReferralReceived" />
+    <bpmn:messageFlow id="MF_ReferralReceived" sourceRef="Participant_1sc4nts" targetRef="R_CheckDocuments" messageRef="Message_ReferralReceived" />
     <bpmn:messageFlow id="MF_AppointmentNotice" sourceRef="R_Confirm" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
     <bpmn:messageFlow id="MF_EnquiryResolution" sourceRef="Q_Notify" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
     <bpmn:textAnnotation id="TA_ReferralResponsibility">
@@ -95,9 +95,7 @@
         <bpmn:flowNodeRef>Q_SupportContact</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Start_Journey" name="Referral received">
-      <bpmn:messageEventDefinition messageRef="Message_ReferralReceived" />
-    </bpmn:startEvent>
+    <bpmn:startEvent id="Start_Journey" name="Referral registered"></bpmn:startEvent>
     <bpmn:userTask id="R_CheckDocuments" name="Check supporting information">
       <bpmn:extensionElements>
         <zeebe:userTask />
@@ -1034,7 +1032,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MF_ReferralReceived_di" bpmnElement="MF_ReferralReceived">
         <di:waypoint x="276" y="1430" />
-        <di:waypoint x="276" y="368" />
+        <di:waypoint x="350" y="350" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="174" y="622" width="40" height="14" />
         </bpmndi:BPMNLabel>
