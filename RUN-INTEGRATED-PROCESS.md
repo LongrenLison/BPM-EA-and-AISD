@@ -8,7 +8,7 @@
    ```powershell
    node .\workers\referral-service-worker.mjs
    ```
-3. Publish the `Referral received` message with a unique correlation key and at least `patientId`.
+3. Publish the `Referral received` message with a unique correlation key and at least `patientId`. The Message Start Event creates the process instance.
 4. Complete the User Tasks in Tasklist using the linked forms. The happy-path values are shown below.
 
 ```powershell
@@ -28,6 +28,10 @@ Invoke-RestMethod -Method Post -Uri 'http://localhost:8080/v2/messages/correlati
 
 All other User Tasks must be completed with the form's required fields. The
 Node.js worker returns the remaining gateway variables.
+
+The worker records two executable patient notifications: the appointment letter
+and the enquiry-resolution notification. Its console output includes the
+notification content, recipient, channel and result.
 
 ## Alternative-path environment variables
 

@@ -5,9 +5,9 @@
   <bpmn:collaboration id="Collaboration_IntegratedHospital">
     <bpmn:participant id="Participant_Hospital" name="Hospital Patient Administration System" processRef="Process_HospitalAdministration" />
     <bpmn:participant id="Participant_1sc4nts" name="Patient or authorised representative" processRef="Process_0w6eap2" />
-    <bpmn:messageFlow id="MF_ReferralReceived" sourceRef="Participant_1sc4nts" targetRef="R_CheckDocuments" messageRef="Message_ReferralReceived" />
-    <bpmn:messageFlow id="MF_AppointmentNotice" sourceRef="R_Confirm" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
-    <bpmn:messageFlow id="MF_EnquiryResolution" sourceRef="Q_Notify" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
+    <bpmn:messageFlow id="MF_ReferralReceived" sourceRef="Participant_1sc4nts" targetRef="Start_Journey" messageRef="Message_ReferralReceived" />
+    <bpmn:messageFlow id="MF_AppointmentNotice" sourceRef="R_Notify" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
+    <bpmn:messageFlow id="MF_EnquiryResolution" sourceRef="Q_SendNotification" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
     <bpmn:textAnnotation id="TA_ReferralResponsibility">
       <bpmn:text>Medical Secretaries check document completeness only. A Consultant makes the clinical referral decision.</bpmn:text>
     </bpmn:textAnnotation>
@@ -37,6 +37,7 @@
         <bpmn:flowNodeRef>Q_Record</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Q_Type</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Q_Notify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Q_SendNotification</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>End_Resolved</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Q_Admin</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>R_RequestInformation</bpmn:flowNodeRef>
@@ -99,7 +100,9 @@
         <bpmn:flowNodeRef>Q_SupportContact</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Start_Journey" name="Referral registered" />
+    <bpmn:startEvent id="Start_Journey" name="Referral received">
+      <bpmn:messageEventDefinition messageRef="Message_ReferralReceived" />
+    </bpmn:startEvent>
     <bpmn:userTask id="R_CheckDocuments" name="Check supporting information">
       <bpmn:extensionElements>
         <zeebe:userTask />
@@ -216,6 +219,11 @@
         <zeebe:formDefinition formId="enquiry-resolution-notification" />
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:serviceTask id="Q_SendNotification" name="Send enquiry resolution notification">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifications.send" retries="3" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
     <bpmn:endEvent id="End_Resolved" name="Patient journey resolved" />
     <bpmn:userTask id="R_Escalate" name="Highlight unavailable timeframe">
       <bpmn:extensionElements>
@@ -275,7 +283,7 @@
     </bpmn:userTask>
     <bpmn:serviceTask id="R_Notify" name="Send appointment letter">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="correspondence.dispatch" retries="3" />
+        <zeebe:taskDefinition type="notifications.send" retries="3" />
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="R_PhoneNeeded" name="Within two weeks?" default="F_Phone_Yes" />
@@ -384,7 +392,8 @@
     <bpmn:sequenceFlow id="F_Support_Notify" sourceRef="Q_SupportContact" targetRef="Q_Notify" />
     <bpmn:sequenceFlow id="F_Admin_Notify" sourceRef="Q_Admin" targetRef="Q_Notify" />
     <bpmn:sequenceFlow id="F_Appointment_Notify" sourceRef="Q_Appointment" targetRef="Q_Notify" />
-    <bpmn:sequenceFlow id="F_Notify_End" sourceRef="Q_Notify" targetRef="End_Resolved" />
+    <bpmn:sequenceFlow id="F_Notify_Send" sourceRef="Q_Notify" targetRef="Q_SendNotification" />
+    <bpmn:sequenceFlow id="F_Notify_End" sourceRef="Q_SendNotification" targetRef="End_Resolved" />
     <bpmn:sequenceFlow id="F_Slot_No" name="no" sourceRef="R_Availability" targetRef="R_Escalate">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(slotFound)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -518,9 +527,6 @@
           <dc:Bounds x="3081" y="875" width="89" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="T_InvestigatePayment_di" bpmnElement="T_InvestigatePayment">
-        <dc:Bounds x="3700" y="815" width="120" height="70" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="T_PaymentResolution_di" bpmnElement="T_PaymentResolution" isMarkerVisible="true">
         <dc:Bounds x="3870" y="825" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -566,10 +572,13 @@
       <bpmndi:BPMNShape id="Q_Notify_di" bpmnElement="Q_Notify">
         <dc:Bounds x="4700" y="315" width="120" height="70" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Q_SendNotification_di" bpmnElement="Q_SendNotification">
+        <dc:Bounds x="4860" y="315" width="120" height="70" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="End_Resolved_di" bpmnElement="End_Resolved">
-        <dc:Bounds x="4880" y="332" width="36" height="36" />
+        <dc:Bounds x="5040" y="332" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4861" y="368" width="74" height="27" />
+          <dc:Bounds x="5021" y="368" width="74" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="R_Escalate_di" bpmnElement="R_Escalate">
@@ -660,16 +669,19 @@
           <dc:Bounds x="2319" y="476" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="End_PaymentIssueClosed_di" bpmnElement="End_PaymentIssueClosed">
-        <dc:Bounds x="3970" y="832" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="3940" y="868" width="96" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="R_CapacityResolution_di" bpmnElement="R_CapacityResolution" isMarkerVisible="true">
         <dc:Bounds x="1705" y="735" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1683" y="795" width="94" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_InvestigatePayment_di" bpmnElement="T_InvestigatePayment">
+        <dc:Bounds x="3700" y="815" width="120" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_PaymentIssueClosed_di" bpmnElement="End_PaymentIssueClosed">
+        <dc:Bounds x="3970" y="832" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3940" y="868" width="96" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="T_ExternalUnavailable_di" bpmnElement="T_ExternalUnavailable">
@@ -991,9 +1003,13 @@
         <di:waypoint x="4630" y="610" />
         <di:waypoint x="4710" y="390" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="F_Notify_End_di" bpmnElement="F_Notify_End">
+      <bpmndi:BPMNEdge id="F_Notify_Send_di" bpmnElement="F_Notify_Send">
         <di:waypoint x="4820" y="350" />
-        <di:waypoint x="4880" y="350" />
+        <di:waypoint x="4860" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_Notify_End_di" bpmnElement="F_Notify_End">
+        <di:waypoint x="4980" y="350" />
+        <di:waypoint x="5040" y="350" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F_Slot_No_di" bpmnElement="F_Slot_No">
         <di:waypoint x="1370" y="615" />
@@ -1111,10 +1127,6 @@
         <di:waypoint x="376" y="1553" />
         <di:waypoint x="560" y="1553" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_TA_PaymentInvestigation_di" bpmnElement="Association_TA_PaymentInvestigation">
-        <di:waypoint x="3762" y="885" />
-        <di:waypoint x="3764" y="1100" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TA_ReferralResponsibility_di" bpmnElement="TA_ReferralResponsibility">
         <dc:Bounds x="140" y="80" width="330" height="65" />
       </bpmndi:BPMNShape>
@@ -1124,26 +1136,29 @@
       <bpmndi:BPMNShape id="TA_TreatmentAuthorisation_di" bpmnElement="TA_TreatmentAuthorisation">
         <dc:Bounds x="2330" y="250" width="330" height="65" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TA_PaymentInvestigation_di" bpmnElement="TA_PaymentInvestigation">
+        <dc:Bounds x="3600" y="1100" width="330" height="65" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TA_ClinicalEnquiryBoundary_di" bpmnElement="TA_ClinicalEnquiryBoundary">
         <dc:Bounds x="4150" y="965" width="330" height="65" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MF_ReferralReceived_di" bpmnElement="MF_ReferralReceived">
         <di:waypoint x="390" y="1430" />
-        <di:waypoint x="390" y="385" />
+        <di:waypoint x="278" y="368" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="174" y="622" width="40" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MF_AppointmentNotice_di" bpmnElement="MF_AppointmentNotice">
-        <di:waypoint x="1550" y="630" />
-        <di:waypoint x="1550" y="1430" />
+        <di:waypoint x="1750" y="625" />
+        <di:waypoint x="1750" y="1430" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1460" y="770" width="90" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MF_EnquiryResolution_di" bpmnElement="MF_EnquiryResolution">
-        <di:waypoint x="4790" y="390" />
-        <di:waypoint x="4790" y="1430" />
+        <di:waypoint x="4920" y="385" />
+        <di:waypoint x="4920" y="1430" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="4772" y="732" width="67" height="40" />
         </bpmndi:BPMNLabel>
@@ -1164,9 +1179,10 @@
         <di:waypoint x="2265" y="455" />
         <di:waypoint x="2495" y="315" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="TA_PaymentInvestigation_di" bpmnElement="TA_PaymentInvestigation">
-        <dc:Bounds x="3600" y="1100" width="330" height="65" />
-      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_TA_PaymentInvestigation_di" bpmnElement="Association_TA_PaymentInvestigation">
+        <di:waypoint x="3762" y="885" />
+        <di:waypoint x="3764" y="1100" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

@@ -11,15 +11,48 @@ const apiBase = (process.env.CAMUNDA_API_URL ?? 'http://localhost:8080/v2').repl
 const worker = process.env.WORKER_ID ?? 'referral-service-worker';
 const pollIntervalMs = Number(process.env.POLL_INTERVAL_MS ?? 1_000);
 
+function variablesFrom(job) {
+  if (!job?.variables) return {};
+  if (typeof job.variables === 'object') return job.variables;
+  try {
+    return JSON.parse(job.variables);
+  } catch {
+    return {};
+  }
+}
+
+function notificationDetails(job) {
+  const variables = variablesFrom(job);
+  const isAppointmentNotification = job.elementId === 'R_Notify';
+  return {
+    recipient: variables.patientId ?? 'patient-or-authorised-representative',
+    channel: variables.notificationMethod ?? (isAppointmentNotification ? 'letter' : 'email'),
+    content: isAppointmentNotification
+      ? (variables.appointmentDetails ?? variables.taskOutcome ?? 'Appointment confirmation')
+      : (variables.resolutionSummary ?? 'Enquiry resolution'),
+    notificationType: isAppointmentNotification ? 'appointment' : 'enquiry-resolution'
+  };
+}
+
 // Replace these deterministic demo results with real scheduling and
 // correspondence integrations before using this outside a demonstration.
 const handlers = {
   'scheduling.search': async () => ({
     slotFound: process.env.DEMO_SLOT_FOUND !== 'false'
   }),
-  'correspondence.dispatch': async () => ({
-    appointmentWithinTwoWeeks: process.env.DEMO_WITHIN_TWO_WEEKS === 'true'
-  }),
+  'notifications.send': async (job) => {
+    const notification = notificationDetails(job);
+    console.log(`[${new Date().toISOString()}] notification recorded: ${JSON.stringify(notification)}`);
+    return {
+      notificationSent: true,
+      notificationRecipient: notification.recipient,
+      notificationChannel: notification.channel,
+      notificationContent: notification.content,
+      ...(notification.notificationType === 'appointment'
+        ? { appointmentWithinTwoWeeks: process.env.DEMO_WITHIN_TWO_WEEKS === 'true' }
+        : {})
+    };
+  },
   'referral.request-information': async () => ({
     informationRequestRecorded: true
   }),

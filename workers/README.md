@@ -10,7 +10,9 @@ node .\workers\referral-service-worker.mjs
 It connects to `http://localhost:8080/v2` by default and subscribes to:
 
 - `scheduling.search` — returns `slotFound=true` by default.
-- `correspondence.dispatch` — returns `appointmentWithinTwoWeeks=false` by default.
+- `notifications.send` — records appointment and enquiry-resolution notifications,
+  including their content, recipient and channel. Appointment notifications also
+  return `appointmentWithinTwoWeeks` for the telephone-contact gateway.
 - `referral.request-information` — records that an information request was sent.
 - `treatment.capacity-check` — returns available treatment capacity.
 - `funding.assess` — returns whether advance payment is required.
