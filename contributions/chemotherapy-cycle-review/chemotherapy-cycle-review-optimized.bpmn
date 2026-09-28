@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_CycleReview" targetNamespace="https://github.com/LongrenLison/BPM-EA-and-AISD" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Camunda Modeler" exporterVersion="5.51.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
+  <bpmn:collaboration id="Collaboration_CycleReview">
+    <bpmn:participant id="Participant_CycleHospital" name="Hospital Patient Administration System" processRef="Process_CycleReview" />
+    <bpmn:participant id="Participant_LabImaging" name="External Laboratory or Imaging Service" />
+    <bpmn:participant id="Participant_CycleScheduling" name="External Treatment or Scheduling Service" />
+    <bpmn:participant id="Participant_CycleCorrespondence" name="External Correspondence Service" />
+    <bpmn:messageFlow id="Message_RequestResults" name="Results request" sourceRef="Task_RequestResults" targetRef="Participant_LabImaging" />
+    <bpmn:messageFlow id="Message_ReturnResults" name="Results or unavailable response" sourceRef="Participant_LabImaging" targetRef="Gateway_ResultsAvailable" />
+    <bpmn:messageFlow id="Message_ScheduleRequest" name="Authorised scheduling request" sourceRef="Task_UpdateTreatmentSchedule" targetRef="Participant_CycleScheduling" />
+    <bpmn:messageFlow id="Message_ScheduleResponse" name="Confirmation, failure or no-slot response" sourceRef="Participant_CycleScheduling" targetRef="Task_UpdateTreatmentSchedule" />
+    <bpmn:messageFlow id="Message_NotifyRequest" name="Authorised patient notification" sourceRef="Task_NotifyPatient" targetRef="Participant_CycleCorrespondence" />
+    <bpmn:messageFlow id="Message_NotifyResponse" name="Delivery status" sourceRef="Participant_CycleCorrespondence" targetRef="Task_NotifyPatient" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_CycleReview" name="Chemotherapy Cycle Review and Treatment Modification" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_CycleReview">
+      <bpmn:lane id="Lane_CNSCycle" name="Clinical Nurse Specialist Team">
+        <bpmn:flowNodeRef>Start_CycleReview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_RequestType</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_InvalidRequestType</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RequestResults</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ResultsAvailable</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RecordResultRetry</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_AuthorisedClinical" name="Consultant or Authorised Clinical Professional">
+        <bpmn:flowNodeRef>Task_ClinicalReview</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_CycleDecision</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AuthoriseContinuation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_UrgentSafety</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RecordDelayPlan</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RecordUrgentPostponement</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CreateFormalModification</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ModificationAuthorised</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_AwaitingAuthorisation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_FollowUpAuthorisation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_FollowUpAuthorised</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_FollowUpNotAuthorised</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_CycleBookings" name="Treatment or Chemotherapy Bookings Team">
+        <bpmn:flowNodeRef>Task_UpdateTreatmentSchedule</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_NotifyPatient</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_CyclePlanUpdated</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_ScheduleUpdated</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RecordScheduleFailure</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_CycleFinance" name="Finance Team">
+        <bpmn:flowNodeRef>Gateway_FinancialImpact</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AssessFinancialImpact</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Start_CycleReview" name="Request received">
+      <bpmn:documentation>OPERATION STEPS: 1. Start one case when a scheduled cycle review is due or a treatment-modification request is received. 2. Verify patient identity and cycle. 3. Record the trigger and time. 4. Route only recognised request types; an unknown or missing type ends without changing the schedule.</bpmn:documentation>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_RequestType" name="Request type?" default="Flow_InvalidRequestType">
+      <bpmn:documentation>DECISION STEPS: 1. Read the required requestType process variable. 2. If requestType is cycleReview, request current results. 3. If requestType is treatmentModification, collect and validate a formal change request. 4. If the value is missing or unrecognised, stop safely without changing the treatment schedule.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="End_InvalidRequestType" name="Invalid request; no change">
+      <bpmn:documentation>END CONDITION: Request type is missing or not recognised. Record the intake problem and keep the authorised treatment schedule unchanged.</bpmn:documentation>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_RequestResults" name="Request required blood, laboratory or imaging results">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="clinical-results.request" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Verify patient identity and cycle. 2. Select required blood, laboratory or imaging results. 3. Send one correlated request to the external service. 4. Record request ID, requester, date and time. 5. On retry, reuse the correlation key so no duplicate request is created.</bpmn:documentation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_ResultsAvailable" name="Required results available?" default="Flow_ResultsMissing">
+      <bpmn:documentation>DECISION STEPS: 1. Check that every required result has been received. 2. Confirm results match the correct patient and cycle. 3. Check completeness and usability. YES proceeds to clinical review. NO or service unavailable keeps the cycle pending and starts controlled retry.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_RecordResultRetry" name="Record missing results and retry">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="cycle-results-retry" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Keep the cycle in Pending Clinical Results. 2. Record the missing item or service failure. 3. Notify the Clinical Nurse Specialist Team. 4. Check whether a request already exists. 5. Retry using the same correlation key and record the outcome.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_ClinicalReview" name="Review results and patient condition">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="cycle-clinical-review" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Confirm identity and cycle. 2. Review results, symptoms, adverse events and previous-cycle response. 3. Record clinical findings. 4. Select Continue, Delay or Change Treatment. 5. Record the authorised clinician, reason, date and time.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_CycleDecision" name="Clinical decision?" default="Flow_DelayCycle">
+      <bpmn:documentation>DECISION STEPS: Only an authorised clinical professional selects one outcome. CONTINUE retains the treatment plan. DELAY checks whether an urgent safety postponement is required. CHANGE TREATMENT requires a formal modification and clinical authorisation.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_AuthoriseContinuation" name="Authorise next cycle">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="cycle-continuation-authorisation" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Confirm results are satisfactory. 2. Confirm the patient is fit for the next cycle. 3. Retain the authorised treatment plan and dose. 4. Record clinician identity and rationale. 5. Release one controlled scheduling request.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_UrgentSafety" name="Urgent safety hold?" default="Flow_PlannedDelay">
+      <bpmn:documentation>DECISION STEPS: 1. Assess whether immediate postponement is required to protect patient safety. YES applies an urgent hold and requires follow-up authorisation. NO records a planned delay and revised plan.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_RecordDelayPlan" name="Record delay reason and plan">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="planned-delay-plan" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Record the clinical reason for delay. 2. Enter the proposed new date or review point. 3. Identify repeat tests or review required. 4. Record the responsible clinician. 5. Create a formal modification record before any schedule change.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_RecordUrgentPostponement" name="Apply urgent safety hold">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="urgent-postponement" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Place the affected cycle on an urgent safety hold immediately. 2. Confirm patient and cycle from the case record; do not change the authorised schedule here. 3. Record the responsible clinician, urgent reason, date and time. 4. Notify the clinical and booking teams through approved channels and record the notifications. 5. Create a mandatory follow-up task for the responsible clinician; the next task records the follow-up decision and authorisation.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_FollowUpAuthorisation" name="Obtain follow-up authorisation">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="urgent-follow-up-authorisation" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Review the urgent hold and supporting clinical evidence. 2. Confirm patient and cycle from the case record. 3. Select Confirm postponement, Amend plan or Cancel proposed change. 4. Record the follow-up reason, authorising clinician and authorisation time. 5. Mark follow-up authorisation complete only after the clinical decision is approved. 6. Confirm or amend proceeds to formal modification; cancel or missing authorisation keeps the urgent hold and existing schedule unchanged.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_FollowUpAuthorised" name="Follow-up authorised?" default="Flow_FollowUpNotAuthorised">
+      <bpmn:documentation>DECISION STEPS: 1. Accept Confirm postponement or Amend plan only when followUpAuthorised is true. 2. Route Cancel proposed change or any incomplete or unauthorised result to the no-change end. 3. No route from this gateway may update the treatment schedule.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_CreateFormalModification" name="Validate formal treatment change">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="cycle-modification-authorisation" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Check the source of the proposed change. 2. Treat email or telephone alone as insufficient; keep the schedule unchanged until a complete formal system request is submitted. 3. For a valid request, record treatment, dose, frequency, cycle, date and resources. 4. Link the clinical reason and supporting results. 5. Record the authorising clinician and submit for final authority check.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_ModificationAuthorised" name="Formally authorised?" default="Flow_NotAuthorised">
+      <bpmn:documentation>DECISION STEPS: Verify that the modification is formal, complete and authorised by the correct clinical professional. YES releases one controlled schedule update. NO includes informal, incomplete or unauthorised requests; keep the schedule unchanged and record the rejection reason. A new formal request is required before processing.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="End_FollowUpNotAuthorised" name="Urgent hold retained; no schedule change">
+      <bpmn:documentation>END CONDITION: Follow-up is cancelled or not fully authorised. Keep the urgent safety hold active and do not release an amended schedule. Record the follow-up decision and reason. Any future plan requires a new authorised clinical request.</bpmn:documentation>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="End_AwaitingAuthorisation" name="Change rejected; schedule unchanged">
+      <bpmn:documentation>END CONDITION: Keep the existing treatment schedule unchanged. Record the missing or invalid authorisation and rejection reason. A new formal request is required before any schedule update.</bpmn:documentation>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Task_UpdateTreatmentSchedule" name="Update treatment schedule once">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="chemotherapy.schedule-update" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Confirm a valid continuation decision or authorised modification. 2. Generate one stable scheduling correlation key. 3. Send treatment, cycle, date and resource requirements to the external scheduling service. 4. Record the response. 5. On timeout, failure or no slot, keep the booking pending and retry with the same key; never create a duplicate appointment.</bpmn:documentation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_ScheduleUpdated" name="Schedule confirmed?" default="Flow_ScheduleFailed">
+      <bpmn:documentation>DECISION STEPS: 1. Check the correlated response from the external scheduling service. 2. YES continues to the financial-impact check. 3. NO, timeout or no slot keeps the request pending, records the outcome and creates a controlled retry or escalation.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_RecordScheduleFailure" name="Keep booking pending; investigate">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="cycle-schedule-failure" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Keep the request pending and record the timeout, outage or no-slot reason. 2. Record the correlated response and notify the responsible booking team. 3. Check for an existing appointment before retrying. 4. Retry with the same correlation key under the approved retry policy; if no policy or availability exists, keep pending and escalate. 5. Never create a duplicate appointment and retain the attempt and audit history.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_FinancialImpact" name="Financial impact?" default="Flow_NoFinancialImpact">
+      <bpmn:documentation>DECISION STEPS: Check whether the authorised schedule change affects funding, a patient charge, payment or refund. YES creates a Finance task. NO proceeds to patient notification. Finance does not change the clinical decision.</bpmn:documentation>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_AssessFinancialImpact" name="Assess funding and payment impact">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="cycle-finance-review" bindingType="latest" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Receive the authorised treatment-change reference. 2. Review funding, payment and refund implications. 3. Record the Finance decision and reason. 4. Link the result to the original transaction and treatment change. 5. Escalate unresolved financial issues without altering clinical necessity.</bpmn:documentation>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_NotifyPatient" name="Notify patient; record outcome">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="correspondence.notify-cycle-plan" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:documentation>OPERATION STEPS: 1. Use the authorised cycle plan and patient communication preference. 2. Send the confirmed date and approved instructions through the correspondence service. 3. Avoid unnecessary clinical or financial data. 4. Record delivered, failed or unknown status. 5. Create a follow-up contact task after failed delivery and retain every attempt.</bpmn:documentation>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="End_CyclePlanUpdated" name="Plan, communication and audit complete">
+      <bpmn:documentation>END CONDITION: The authorised clinical decision, controlled scheduling result, Finance action where required, patient-notification outcome and user/date/time/action audit history are recorded.</bpmn:documentation>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_CycleStart" sourceRef="Start_CycleReview" targetRef="Gateway_RequestType" />
+    <bpmn:sequenceFlow id="Flow_RequestCycleReview" name="Cycle review" sourceRef="Gateway_RequestType" targetRef="Task_RequestResults">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= requestType = "cycleReview"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_RequestTreatmentModification" name="Change request" sourceRef="Gateway_RequestType" targetRef="Task_CreateFormalModification">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= requestType = "treatmentModification"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_InvalidRequestType" name="Other or missing" sourceRef="Gateway_RequestType" targetRef="End_InvalidRequestType" />
+    <bpmn:sequenceFlow id="Flow_RequestResultCheck" sourceRef="Task_RequestResults" targetRef="Gateway_ResultsAvailable" />
+    <bpmn:sequenceFlow id="Flow_ResultsMissing" name="No / error" sourceRef="Gateway_ResultsAvailable" targetRef="Task_RecordResultRetry" />
+    <bpmn:sequenceFlow id="Flow_RetryResults" name="Controlled retry" sourceRef="Task_RecordResultRetry" targetRef="Task_RequestResults" />
+    <bpmn:sequenceFlow id="Flow_ResultsReady" name="Yes" sourceRef="Gateway_ResultsAvailable" targetRef="Task_ClinicalReview">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= resultsAvailable = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_ReviewDecision" sourceRef="Task_ClinicalReview" targetRef="Gateway_CycleDecision" />
+    <bpmn:sequenceFlow id="Flow_ContinueCycle" name="Continue" sourceRef="Gateway_CycleDecision" targetRef="Task_AuthoriseContinuation">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= cycleDecision = "continue"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_ContinueSchedule" sourceRef="Task_AuthoriseContinuation" targetRef="Task_UpdateTreatmentSchedule" />
+    <bpmn:sequenceFlow id="Flow_DelayCycle" name="Delay" sourceRef="Gateway_CycleDecision" targetRef="Gateway_UrgentSafety">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= cycleDecision = "delay"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_PlannedDelay" name="No" sourceRef="Gateway_UrgentSafety" targetRef="Task_RecordDelayPlan" />
+    <bpmn:sequenceFlow id="Flow_DelayModification" sourceRef="Task_RecordDelayPlan" targetRef="Task_CreateFormalModification" />
+    <bpmn:sequenceFlow id="Flow_UrgentDelay" name="Yes" sourceRef="Gateway_UrgentSafety" targetRef="Task_RecordUrgentPostponement">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= urgentPostponement = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_UrgentModification" sourceRef="Task_FollowUpAuthorisation" targetRef="Gateway_FollowUpAuthorised" />
+    <bpmn:sequenceFlow id="Flow_FollowUpConfirmed" name="Confirm" sourceRef="Gateway_FollowUpAuthorised" targetRef="Task_CreateFormalModification">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= followUpDecision = "confirm" and followUpAuthorised = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_FollowUpAmended" name="Amend" sourceRef="Gateway_FollowUpAuthorised" targetRef="Task_CreateFormalModification">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= followUpDecision = "amend" and followUpAuthorised = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_FollowUpNotAuthorised" name="No / cancel" sourceRef="Gateway_FollowUpAuthorised" targetRef="End_FollowUpNotAuthorised" />
+    <bpmn:sequenceFlow id="Flow_ChangeTreatment" name="Change treatment" sourceRef="Gateway_CycleDecision" targetRef="Task_CreateFormalModification">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= cycleDecision = "change"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_ModificationCheck" sourceRef="Task_CreateFormalModification" targetRef="Gateway_ModificationAuthorised" />
+    <bpmn:sequenceFlow id="Flow_NotAuthorised" name="No" sourceRef="Gateway_ModificationAuthorised" targetRef="End_AwaitingAuthorisation" />
+    <bpmn:sequenceFlow id="Flow_AuthorisedChange" name="Yes" sourceRef="Gateway_ModificationAuthorised" targetRef="Task_UpdateTreatmentSchedule">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= formalRequest = true and modificationAuthorised = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_ScheduleSucceeded" sourceRef="Gateway_ScheduleUpdated" targetRef="Gateway_FinancialImpact" name="Yes">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= scheduleUpdated = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_FinancialReview" name="Yes" sourceRef="Gateway_FinancialImpact" targetRef="Task_AssessFinancialImpact">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= financialImpact = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_FinanceNotify" sourceRef="Task_AssessFinancialImpact" targetRef="Task_NotifyPatient" />
+    <bpmn:sequenceFlow id="Flow_NoFinancialImpact" name="No" sourceRef="Gateway_FinancialImpact" targetRef="Task_NotifyPatient" />
+    <bpmn:sequenceFlow id="Flow_NotifyEnd" sourceRef="Task_NotifyPatient" targetRef="End_CyclePlanUpdated" />
+    <bpmn:sequenceFlow id="Flow_UrgentFollowUp" sourceRef="Task_RecordUrgentPostponement" targetRef="Task_FollowUpAuthorisation" />
+    <bpmn:sequenceFlow id="Flow_ScheduleResponseCheck" sourceRef="Task_UpdateTreatmentSchedule" targetRef="Gateway_ScheduleUpdated" />
+    <bpmn:sequenceFlow id="Flow_ScheduleFailed" sourceRef="Gateway_ScheduleUpdated" targetRef="Task_RecordScheduleFailure" name="No / retry" />
+    <bpmn:sequenceFlow id="Flow_ScheduleRetry" sourceRef="Task_RecordScheduleFailure" targetRef="Task_UpdateTreatmentSchedule" name="Controlled retry" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_CycleReview">
+    <bpmndi:BPMNPlane id="Plane_CycleReview" bpmnElement="Collaboration_CycleReview">
+      <bpmndi:BPMNShape id="Shape_Participant_CycleHospital" bpmnElement="Participant_CycleHospital" isHorizontal="true">
+        <dc:Bounds x="30" y="60" width="3200" height="820" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Participant_LabImaging" bpmnElement="Participant_LabImaging" isHorizontal="true" isExpanded="false">
+        <dc:Bounds x="60" y="950" width="850" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Participant_CycleScheduling" bpmnElement="Participant_CycleScheduling" isHorizontal="true" isExpanded="false">
+        <dc:Bounds x="1030" y="950" width="900" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Participant_CycleCorrespondence" bpmnElement="Participant_CycleCorrespondence" isHorizontal="true" isExpanded="false">
+        <dc:Bounds x="2050" y="950" width="850" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_CNSCycle" bpmnElement="Lane_CNSCycle" isHorizontal="true">
+        <dc:Bounds x="60" y="60" width="3140" height="190" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_AuthorisedClinical" bpmnElement="Lane_AuthorisedClinical" isHorizontal="true">
+        <dc:Bounds x="60" y="250" width="3140" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_CycleBookings" bpmnElement="Lane_CycleBookings" isHorizontal="true">
+        <dc:Bounds x="60" y="520" width="3140" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_CycleFinance" bpmnElement="Lane_CycleFinance" isHorizontal="true">
+        <dc:Bounds x="60" y="700" width="3140" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_CycleReview" bpmnElement="Start_CycleReview">
+        <dc:Bounds x="130" y="120" width="44" height="44" />
+        <bpmndi:BPMNLabel><dc:Bounds x="63" y="88" width="112" height="20" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_RequestType" bpmnElement="Gateway_RequestType">
+        <dc:Bounds x="225" y="120" width="44" height="44" />
+        <bpmndi:BPMNLabel><dc:Bounds x="210" y="88" width="82" height="20" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_InvalidRequestType" bpmnElement="End_InvalidRequestType">
+        <dc:Bounds x="225" y="176" width="44" height="44" />
+        <bpmndi:BPMNLabel><dc:Bounds x="170" y="222" width="154" height="22" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RequestResults" bpmnElement="Task_RequestResults">
+        <dc:Bounds x="330" y="108" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_ResultsAvailable" bpmnElement="Gateway_ResultsAvailable">
+        <dc:Bounds x="530" y="120" width="44" height="44" />
+        <bpmndi:BPMNLabel><dc:Bounds x="498" y="88" width="108" height="20" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RecordResultRetry" bpmnElement="Task_RecordResultRetry">
+        <dc:Bounds x="610" y="195" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ClinicalReview" bpmnElement="Task_ClinicalReview">
+        <dc:Bounds x="680" y="310" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_CycleDecision" bpmnElement="Gateway_CycleDecision">
+        <dc:Bounds x="910" y="322" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AuthoriseContinuation" bpmnElement="Task_AuthoriseContinuation">
+        <dc:Bounds x="1060" y="278" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_UrgentSafety" bpmnElement="Gateway_UrgentSafety">
+        <dc:Bounds x="1060" y="420" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RecordDelayPlan" bpmnElement="Task_RecordDelayPlan">
+        <dc:Bounds x="1220" y="418" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RecordUrgentPostponement" bpmnElement="Task_RecordUrgentPostponement">
+        <dc:Bounds x="1280" y="278" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_CreateFormalModification" bpmnElement="Task_CreateFormalModification">
+        <dc:Bounds x="1900" y="358" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_ModificationAuthorised" bpmnElement="Gateway_ModificationAuthorised">
+        <dc:Bounds x="2130" y="370" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_AwaitingAuthorisation" bpmnElement="End_AwaitingAuthorisation">
+        <dc:Bounds x="2300" y="370" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_UpdateTreatmentSchedule" bpmnElement="Task_UpdateTreatmentSchedule">
+        <dc:Bounds x="2060" y="570" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_NotifyPatient" bpmnElement="Task_NotifyPatient">
+        <dc:Bounds x="2650" y="570" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_CyclePlanUpdated" bpmnElement="End_CyclePlanUpdated">
+        <dc:Bounds x="2880" y="582" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_FinancialImpact" bpmnElement="Gateway_FinancialImpact">
+        <dc:Bounds x="2280" y="758" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AssessFinancialImpact" bpmnElement="Task_AssessFinancialImpact">
+        <dc:Bounds x="2440" y="746" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_CycleStart" bpmnElement="Flow_CycleStart">
+        <di:waypoint x="174" y="142" />
+        <di:waypoint x="225" y="142" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_RequestCycleReview" bpmnElement="Flow_RequestCycleReview">
+        <di:waypoint x="269" y="142" />
+        <di:waypoint x="330" y="142" />
+        <bpmndi:BPMNLabel><dc:Bounds x="270" y="164" width="58" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_RequestTreatmentModification" bpmnElement="Flow_RequestTreatmentModification">
+        <di:waypoint x="269" y="142" />
+        <di:waypoint x="294" y="142" />
+        <di:waypoint x="294" y="80" />
+        <di:waypoint x="1985" y="80" />
+        <di:waypoint x="1985" y="358" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_InvalidRequestType" bpmnElement="Flow_InvalidRequestType">
+        <di:waypoint x="247" y="164" />
+        <di:waypoint x="247" y="176" />
+        <bpmndi:BPMNLabel><dc:Bounds x="137" y="184" width="82" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_RequestResultCheck" bpmnElement="Flow_RequestResultCheck">
+        <di:waypoint x="500" y="142" />
+        <di:waypoint x="515" y="142" />
+        <di:waypoint x="530" y="142" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ResultsMissing" bpmnElement="Flow_ResultsMissing">
+        <di:waypoint x="574" y="142" />
+        <di:waypoint x="590" y="142" />
+        <di:waypoint x="590" y="229" />
+        <di:waypoint x="610" y="229" />
+        <bpmndi:BPMNLabel><dc:Bounds x="566" y="172" width="58" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_RetryResults" bpmnElement="Flow_RetryResults">
+        <di:waypoint x="780" y="229" />
+        <di:waypoint x="820" y="229" />
+        <di:waypoint x="820" y="95" />
+        <di:waypoint x="385" y="95" />
+        <di:waypoint x="385" y="108" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ResultsReady" bpmnElement="Flow_ResultsReady">
+        <di:waypoint x="552" y="164" />
+        <di:waypoint x="552" y="280" />
+        <di:waypoint x="644" y="280" />
+        <di:waypoint x="644" y="344" />
+        <di:waypoint x="680" y="344" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ReviewDecision" bpmnElement="Flow_ReviewDecision">
+        <di:waypoint x="850" y="344" />
+        <di:waypoint x="874" y="344" />
+        <di:waypoint x="910" y="344" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ContinueCycle" bpmnElement="Flow_ContinueCycle">
+        <di:waypoint x="954" y="344" />
+        <di:waypoint x="1024" y="344" />
+        <di:waypoint x="1024" y="312" />
+        <di:waypoint x="1060" y="312" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ContinueSchedule" bpmnElement="Flow_ContinueSchedule">
+        <di:waypoint x="1145" y="278" />
+        <di:waypoint x="1245" y="278" />
+        <di:waypoint x="1245" y="260" />
+        <di:waypoint x="2250" y="260" />
+        <di:waypoint x="2250" y="540" />
+        <di:waypoint x="2145" y="540" />
+        <di:waypoint x="2145" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_DelayCycle" bpmnElement="Flow_DelayCycle">
+        <di:waypoint x="954" y="344" />
+        <di:waypoint x="1024" y="344" />
+        <di:waypoint x="1024" y="442" />
+        <di:waypoint x="1060" y="442" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_PlannedDelay" bpmnElement="Flow_PlannedDelay">
+        <di:waypoint x="1104" y="442" />
+        <di:waypoint x="1184" y="442" />
+        <di:waypoint x="1184" y="452" />
+        <di:waypoint x="1220" y="452" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_DelayModification" bpmnElement="Flow_DelayModification">
+        <di:waypoint x="1390" y="452" />
+        <di:waypoint x="1434" y="452" />
+        <di:waypoint x="1434" y="392" />
+        <di:waypoint x="1800" y="392" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_UrgentDelay" bpmnElement="Flow_UrgentDelay">
+        <di:waypoint x="1060" y="442" />
+        <di:waypoint x="1020" y="442" />
+        <di:waypoint x="1020" y="250" />
+        <di:waypoint x="1245" y="250" />
+        <di:waypoint x="1245" y="312" />
+        <di:waypoint x="1280" y="312" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_UrgentModification" bpmnElement="Flow_UrgentModification">
+        <di:waypoint x="1650" y="312" />
+        <di:waypoint x="1670" y="312" />
+        <di:waypoint x="1670" y="300" />
+        <di:waypoint x="1700" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_FollowUpConfirmed" bpmnElement="Flow_FollowUpConfirmed">
+        <di:waypoint x="1744" y="290" />
+        <di:waypoint x="1810" y="290" />
+        <di:waypoint x="1810" y="376" />
+        <di:waypoint x="1900" y="376" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1750" y="330" width="50" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_FollowUpAmended" bpmnElement="Flow_FollowUpAmended">
+        <di:waypoint x="1744" y="310" />
+        <di:waypoint x="1840" y="310" />
+        <di:waypoint x="1840" y="408" />
+        <di:waypoint x="1900" y="408" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1750" y="350" width="50" height="16" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_FollowUpNotAuthorised" bpmnElement="Flow_FollowUpNotAuthorised">
+        <di:waypoint x="1722" y="322" />
+        <di:waypoint x="1780" y="322" />
+        <di:waypoint x="1780" y="462" />
+        <di:waypoint x="1700" y="462" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1685" y="370" width="78" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ChangeTreatment" bpmnElement="Flow_ChangeTreatment">
+        <di:waypoint x="932" y="322" />
+        <di:waypoint x="932" y="260" />
+        <di:waypoint x="1985" y="260" />
+        <di:waypoint x="1985" y="358" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ModificationCheck" bpmnElement="Flow_ModificationCheck">
+        <di:waypoint x="2070" y="392" />
+        <di:waypoint x="2100" y="392" />
+        <di:waypoint x="2130" y="392" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_NotAuthorised" bpmnElement="Flow_NotAuthorised">
+        <di:waypoint x="2174" y="392" />
+        <di:waypoint x="2230" y="392" />
+        <di:waypoint x="2300" y="392" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_AuthorisedChange" bpmnElement="Flow_AuthorisedChange">
+        <di:waypoint x="2174" y="392" />
+        <di:waypoint x="2200" y="392" />
+        <di:waypoint x="2200" y="540" />
+        <di:waypoint x="2145" y="540" />
+        <di:waypoint x="2145" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ScheduleSucceeded" bpmnElement="Flow_ScheduleSucceeded">
+        <di:waypoint x="2230" y="604" />
+        <di:waypoint x="2244" y="604" />
+        <di:waypoint x="2244" y="780" />
+        <di:waypoint x="2280" y="780" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_FinancialReview" bpmnElement="Flow_FinancialReview">
+        <di:waypoint x="2324" y="780" />
+        <di:waypoint x="2404" y="780" />
+        <di:waypoint x="2440" y="780" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_FinanceNotify" bpmnElement="Flow_FinanceNotify">
+        <di:waypoint x="2610" y="780" />
+        <di:waypoint x="2614" y="780" />
+        <di:waypoint x="2614" y="604" />
+        <di:waypoint x="2650" y="604" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_NoFinancialImpact" bpmnElement="Flow_NoFinancialImpact">
+        <di:waypoint x="2302" y="758" />
+        <di:waypoint x="2302" y="680" />
+        <di:waypoint x="2735" y="680" />
+        <di:waypoint x="2735" y="638" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_NotifyEnd" bpmnElement="Flow_NotifyEnd">
+        <di:waypoint x="2820" y="604" />
+        <di:waypoint x="2844" y="604" />
+        <di:waypoint x="2880" y="604" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_NotifyResponse" bpmnElement="Message_NotifyResponse">
+        <di:waypoint x="2700" y="950" />
+        <di:waypoint x="2720" y="900" />
+        <di:waypoint x="2720" y="604" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_RequestResults" bpmnElement="Message_RequestResults">
+        <di:waypoint x="385" y="176" />
+        <di:waypoint x="385" y="910" />
+        <di:waypoint x="300" y="950" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_ScheduleResponse" bpmnElement="Message_ScheduleResponse">
+        <di:waypoint x="1680" y="950" />
+        <di:waypoint x="2045" y="900" />
+        <di:waypoint x="2045" y="638" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_ScheduleRequest" bpmnElement="Message_ScheduleRequest">
+        <di:waypoint x="2045" y="638" />
+        <di:waypoint x="1480" y="910" />
+        <di:waypoint x="1480" y="950" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_ReturnResults" bpmnElement="Message_ReturnResults">
+        <di:waypoint x="520" y="950" />
+        <di:waypoint x="520" y="300" />
+        <di:waypoint x="552" y="164" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_NotifyRequest" bpmnElement="Message_NotifyRequest">
+        <di:waypoint x="2635" y="638" />
+        <di:waypoint x="2470" y="900" />
+        <di:waypoint x="2470" y="950" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Shape_Task_FollowUpAuthorisation" bpmnElement="Task_FollowUpAuthorisation">
+        <dc:Bounds x="1480" y="278" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_FollowUpAuthorised" bpmnElement="Gateway_FollowUpAuthorised">
+        <dc:Bounds x="1700" y="278" width="44" height="44" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1650" y="226" width="144" height="20" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_FollowUpNotAuthorised" bpmnElement="End_FollowUpNotAuthorised">
+        <dc:Bounds x="1700" y="440" width="44" height="44" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1645" y="488" width="154" height="28" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Gateway_ScheduleUpdated" bpmnElement="Gateway_ScheduleUpdated">
+        <dc:Bounds x="2280" y="582" width="44" height="44" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RecordScheduleFailure" bpmnElement="Task_RecordScheduleFailure">
+        <dc:Bounds x="2420" y="570" width="170" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_UrgentFollowUp" bpmnElement="Flow_UrgentFollowUp">
+        <di:waypoint x="1450" y="312" />
+        <di:waypoint x="1480" y="312" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ScheduleResponseCheck" bpmnElement="Flow_ScheduleResponseCheck">
+        <di:waypoint x="2130" y="604" />
+        <di:waypoint x="2180" y="604" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ScheduleFailed" bpmnElement="Flow_ScheduleFailed">
+        <di:waypoint x="2324" y="604" />
+        <di:waypoint x="2390" y="604" />
+        <di:waypoint x="2420" y="604" />
+        <bpmndi:BPMNLabel><dc:Bounds x="2333" y="580" width="58" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_ScheduleRetry" bpmnElement="Flow_ScheduleRetry">
+        <di:waypoint x="2505" y="570" />
+        <di:waypoint x="2505" y="530" />
+        <di:waypoint x="2145" y="530" />
+        <di:waypoint x="2145" y="570" />
+        <bpmndi:BPMNLabel><dc:Bounds x="2260" y="536" width="90" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
