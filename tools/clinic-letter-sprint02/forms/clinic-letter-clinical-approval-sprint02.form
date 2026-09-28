@@ -20,7 +20,10 @@
       "type": "text",
       "id": "Field_approval_context",
       "text": "Letter type: {{letterType}}\n\nConsultation: {{clinicalSummary}}\n\nDiagnosis: {{diagnosis}}\n\nClinical findings: {{clinicalFindings}}\n\nTreatment decisions: {{treatmentDecisions}}\n\nFollow-up: {{followUpPlan}}\n\nInstructions: {{communicationInstructions}}\n\nConsultant-selected recipients: {{intendedRecipients}}\n\nReview all content before deciding.",
-      "layout": { "row": "Row_context", "columns": null }
+      "layout": {
+        "row": "Row_context",
+        "columns": null
+      }
     },
     {
       "type": "text",
@@ -55,5 +58,6 @@
     }
   ],
   "type": "default",
-  "schemaVersion": 18
+  "schemaVersion": 18,
+  "executionPlatform": "Camunda Cloud"
 }

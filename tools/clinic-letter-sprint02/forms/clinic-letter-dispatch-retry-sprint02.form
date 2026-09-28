@@ -62,5 +62,6 @@
     }
   ],
   "type": "default",
-  "schemaVersion": 18
+  "schemaVersion": 18,
+  "executionPlatform": "Camunda Cloud"
 }

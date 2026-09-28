@@ -1,0 +1,12 @@
+{
+  "verifiedAt": "2026-09-28T14:32:29.9987335+08:00",
+  "engineVersion": "8.10.0-alpha5",
+  "camundaJavaSdk": "8.9.0",
+  "unitTestsPassed": 6,
+  "engineScenariosPassed": 8,
+  "allInstancesCompleted": true,
+  "deploymentKey": "2251799813692934",
+  "jarSha256": "122C68AEF6249F829CA7A7FFB57F4FA891E1AFD5801C07AF4B73241C90A470BD",
+  "testWorkerStopped": true,
+  "originalUserInstancesPreserved": 4
+}
