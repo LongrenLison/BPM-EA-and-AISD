@@ -1,0 +1,16 @@
+{
+  "components": [
+    {"type":"text","id":"h-enquiry-intake-heading","text":"## Receive patient enquiry\nRole: Patient administration.\nActor IDs record responsibility in this local demonstration; role-based access must be configured separately."},
+    {"label":"Patient Id","type":"textfield","key":"patientId","id":"patientId","validate":{"required":true}},
+    {"label":"Enquiry Type","type":"radio","key":"enquiryType","id":"enquiryType","values":[{"label":"Administrative","value":"administrative"},{"label":"Appointment","value":"appointment"},{"label":"Financial","value":"financial"},{"label":"Clinical","value":"clinical"}],"validate":{"required":true}},
+    {"label":"Enquiry Priority","type":"radio","key":"enquiryPriority","id":"enquiryPriority","values":[{"label":"Routine","value":"routine"},{"label":"Urgent","value":"urgent"}],"validate":{"required":true}},
+    {"label":"Enquiry Summary","type":"textarea","key":"enquirySummary","id":"enquirySummary","validate":{"required":true}},
+    {"label":"Enquiry Handler Id","type":"textfield","key":"enquiryHandlerId","id":"enquiryHandlerId","validate":{"required":true}}
+  ],
+  "type": "default",
+  "id": "h-enquiry-intake",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {"name":"Hospital workflow form generator","version":"1.0.0"},
+  "schemaVersion": 19
+}

@@ -1,0 +1,79 @@
+{
+  "processId": "Hospital_Enquiry_Standalone",
+  "messageName": "Patient enquiry received (standalone)",
+  "messageFlow": "MessageFlow_ExternalEnquiry_Received",
+  "jobTypes": [
+    "hospital.enquiry.audit.record",
+    "hospital.enquiry.initialize"
+  ],
+  "formIds": [
+    "h-enquiry-intake",
+    "h-enquiry-response",
+    "h-enquiry-triage"
+  ],
+  "resources": [
+    "F:\\BPM-EA-and-AISD\\patient-enquiries-package\\16-core-patient-enquiries-standalone.bpmn",
+    "F:\\BPM-EA-and-AISD\\patient-enquiries-package\\forms\\h-enquiry-intake.form",
+    "F:\\BPM-EA-and-AISD\\patient-enquiries-package\\forms\\h-enquiry-response.form",
+    "F:\\BPM-EA-and-AISD\\patient-enquiries-package\\forms\\h-enquiry-triage.form"
+  ],
+  "deployment": {
+    "deploymentKey": "2251799814243782",
+    "tenantId": "<default>",
+    "deployments": [
+      {
+        "processDefinition": {
+          "processDefinitionId": "Hospital_Enquiry_Standalone",
+          "processDefinitionVersion": 5,
+          "resourceName": "16-core-patient-enquiries-standalone.bpmn",
+          "tenantId": "<default>",
+          "processDefinitionKey": "2251799814243783"
+        },
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": null,
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "h-enquiry-response",
+          "version": 9,
+          "resourceName": "h-enquiry-response.form",
+          "tenantId": "<default>",
+          "formKey": "2251799814243784"
+        },
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "h-enquiry-triage",
+          "version": 9,
+          "resourceName": "h-enquiry-triage.form",
+          "tenantId": "<default>",
+          "formKey": "2251799814243785"
+        },
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "h-enquiry-intake",
+          "version": 9,
+          "resourceName": "h-enquiry-intake.form",
+          "tenantId": "<default>",
+          "formKey": "2251799814243786"
+        },
+        "resource": null
+      }
+    ]
+  },
+  "deployedAt": "2026-09-28T11:17:52.8707451Z"
+}
