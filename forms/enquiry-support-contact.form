@@ -1,0 +1,8 @@
+{
+  "components": [
+    { "label": "Specialist support contact details", "type": "textarea", "key": "specialistSupportContact", "validate": { "required": true }, "id": "specialistSupportContact" },
+    { "label": "Follow-up owner", "type": "textfield", "key": "supportFollowUpOwner", "id": "supportFollowUpOwner" }
+  ],
+  "type": "default", "id": "enquiry-support-contact", "executionPlatform": "Camunda Cloud", "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" }, "schemaVersion": 19
+}

@@ -1,0 +1,8 @@
+{
+  "components": [
+    { "label": "Funding or payment response", "type": "textarea", "key": "fundingResponse", "validate": { "required": true }, "id": "fundingResponse" },
+    { "label": "Follow-up required", "type": "checkbox", "key": "fundingFollowUpRequired", "id": "fundingFollowUpRequired" }
+  ],
+  "type": "default", "id": "enquiry-funding-response", "executionPlatform": "Camunda Cloud", "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" }, "schemaVersion": 19
+}

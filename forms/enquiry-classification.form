@@ -1,0 +1,41 @@
+{
+  "components": [
+    {
+      "label": "Enquiry type",
+      "type": "select",
+      "key": "enquiryType",
+      "values": [
+        { "label": "Administrative", "value": "administrative" },
+        { "label": "Appointment", "value": "appointment" },
+        { "label": "Funding or payment", "value": "financial" },
+        { "label": "Clinical concern", "value": "clinical" }
+      ],
+      "validate": { "required": true },
+      "id": "enquiryType"
+    },
+    {
+      "label": "Priority",
+      "type": "select",
+      "key": "enquiryPriority",
+      "values": [
+        { "label": "Routine", "value": "routine" },
+        { "label": "Urgent", "value": "urgent" }
+      ],
+      "validate": { "required": true },
+      "id": "enquiryPriority"
+    },
+    {
+      "label": "Enquiry summary",
+      "type": "textarea",
+      "key": "enquirySummary",
+      "validate": { "required": true },
+      "id": "enquirySummary"
+    }
+  ],
+  "type": "default",
+  "id": "enquiry-classification",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" },
+  "schemaVersion": 19
+}

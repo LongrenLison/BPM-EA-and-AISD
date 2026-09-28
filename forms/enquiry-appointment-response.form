@@ -1,0 +1,8 @@
+{
+  "components": [
+    { "label": "Appointment query outcome", "type": "textarea", "key": "appointmentResponse", "validate": { "required": true }, "id": "appointmentResponse" },
+    { "label": "Appointment reference", "type": "textfield", "key": "appointmentReference", "id": "appointmentReference" }
+  ],
+  "type": "default", "id": "enquiry-appointment-response", "executionPlatform": "Camunda Cloud", "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" }, "schemaVersion": 19
+}
