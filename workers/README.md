@@ -39,20 +39,9 @@ $env:DEMO_PAYMENT_STATUS = 'completed'
 node .\workers\referral-service-worker.mjs
 ```
 
-Start an integrated process instance by publishing the `Referral received`
-message after deploying the BPMN and form files:
-
-```powershell
-$body = @{
-  name = 'Referral received'
-  correlationKey = "integrated-$(Get-Date -Format 'yyyyMMddHHmmss')"
-  variables = @{ patientId = 'demo-patient-001' }
-} | ConvertTo-Json
-
-Invoke-RestMethod -Method Post `
-  -Uri 'http://localhost:8080/v2/messages/correlation' `
-  -ContentType 'application/json' `
-  -Body $body
-```
+After deploying the BPMN and form files, start an integrated process instance
+in Tasklist: open **Processes**, choose **Integrated hospital patient
+administration**, then click **Start process**. The first User Task is **Check
+supporting information**.
 
 This is a demonstration implementation. Replace the deterministic handlers with calls to the real scheduling and correspondence services. It intentionally does not subscribe to `io.camunda.zeebe:userTask`; those represent human work and should use Camunda user tasks and Tasklist.

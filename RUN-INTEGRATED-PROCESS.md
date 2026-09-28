@@ -8,13 +8,8 @@
    ```powershell
    node .\workers\referral-service-worker.mjs
    ```
-3. Publish the `Referral received` message with a unique correlation key and at least `patientId`. The Message Start Event creates the process instance.
+3. In Tasklist, open **Processes**, select **Integrated hospital patient administration**, and click **Start process**. The process starts at **Check supporting information**.
 4. Complete the User Tasks in Tasklist using the linked forms. The happy-path values are shown below.
-
-```powershell
-$body = @{ name = 'Referral received'; correlationKey = "hospital-$([guid]::NewGuid())"; variables = @{ patientId = 'demo-patient-001' } } | ConvertTo-Json -Depth 4
-Invoke-RestMethod -Method Post -Uri 'http://localhost:8080/v2/messages/correlation' -ContentType 'application/json' -Body $body
-```
 
 ## Happy-path User Task variables
 

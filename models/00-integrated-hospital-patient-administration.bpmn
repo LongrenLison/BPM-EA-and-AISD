@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_IntegratedHospital" targetNamespace="http://hospital.example/bpmn" exporter="Camunda Modeler" exporterVersion="5.51.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
-  <bpmn:message id="Message_ReferralReceived" name="Referral received" />
   <bpmn:message id="Message_PatientNotice" name="Patient notification" />
   <bpmn:collaboration id="Collaboration_IntegratedHospital">
     <bpmn:participant id="Participant_Hospital" name="Hospital Patient Administration System" processRef="Process_HospitalAdministration" />
     <bpmn:participant id="Participant_1sc4nts" name="Patient or authorised representative" processRef="Process_0w6eap2" />
-    <bpmn:messageFlow id="MF_ReferralReceived" sourceRef="Participant_1sc4nts" targetRef="Start_Journey" messageRef="Message_ReferralReceived" />
     <bpmn:messageFlow id="MF_AppointmentNotice" sourceRef="R_Notify" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
     <bpmn:messageFlow id="MF_EnquiryResolution" sourceRef="Q_SendNotification" targetRef="Participant_1sc4nts" messageRef="Message_PatientNotice" />
     <bpmn:textAnnotation id="TA_ReferralResponsibility">
@@ -33,7 +31,6 @@
     <bpmn:laneSet id="LaneSet_Integrated">
       <bpmn:lane id="Lane_Secretaries" name="Medical Secretaries and Call Handling Team">
         <bpmn:flowNodeRef>Start_Manual</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Start_Journey</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>R_CheckDocuments</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Q_Record</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Q_Type</bpmn:flowNodeRef>
@@ -102,9 +99,6 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="Start_Manual" name="Start process" />
-    <bpmn:startEvent id="Start_Journey" name="Referral received">
-      <bpmn:messageEventDefinition messageRef="Message_ReferralReceived" />
-    </bpmn:startEvent>
     <bpmn:userTask id="R_CheckDocuments" name="Check supporting information">
       <bpmn:extensionElements>
         <zeebe:userTask />
@@ -310,7 +304,6 @@
       <bpmn:errorEventDefinition />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="F_ManualStart_Check" sourceRef="Start_Manual" targetRef="R_CheckDocuments" />
-    <bpmn:sequenceFlow id="F_Start_Check" sourceRef="Start_Journey" targetRef="R_CheckDocuments" />
     <bpmn:sequenceFlow id="F_Request_Check" sourceRef="R_RequestInformation" targetRef="R_CheckDocuments" />
     <bpmn:sequenceFlow id="F_Check_Gateway" sourceRef="R_CheckDocuments" targetRef="R_DocumentsComplete" />
     <bpmn:sequenceFlow id="F_Docs_Yes" name="yes" sourceRef="R_DocumentsComplete" targetRef="R_Review">
@@ -477,12 +470,6 @@
         <dc:Bounds x="260" y="252" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="222" y="228" width="112" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Start_Journey_di" bpmnElement="Start_Journey">
-        <dc:Bounds x="260" y="332" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="236" y="308" width="84" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="R_CheckDocuments_di" bpmnElement="R_CheckDocuments">
@@ -699,10 +686,6 @@
           <dc:Bounds x="2370" y="1026" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="F_Start_Check_di" bpmnElement="F_Start_Check">
-        <di:waypoint x="296" y="350" />
-        <di:waypoint x="350" y="350" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F_ManualStart_Check_di" bpmnElement="F_ManualStart_Check">
         <di:waypoint x="296" y="270" />
         <di:waypoint x="323" y="270" />
@@ -1157,13 +1140,6 @@
       <bpmndi:BPMNShape id="TA_ClinicalEnquiryBoundary_di" bpmnElement="TA_ClinicalEnquiryBoundary">
         <dc:Bounds x="4150" y="965" width="330" height="65" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="MF_ReferralReceived_di" bpmnElement="MF_ReferralReceived">
-        <di:waypoint x="390" y="1430" />
-        <di:waypoint x="278" y="368" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="174" y="622" width="40" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MF_AppointmentNotice_di" bpmnElement="MF_AppointmentNotice">
         <di:waypoint x="1750" y="625" />
         <di:waypoint x="1750" y="1430" />
