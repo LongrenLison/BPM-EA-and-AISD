@@ -1,0 +1,259 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3248" height="1018" viewBox="6 36 3248 1018">
+<defs><marker id="sequence-arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="#263746"/></marker><marker id="message-arrow" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto"><path d="M1,1 L10,5 L1,9" fill="none" stroke="#526b7b" stroke-width="1.4"/></marker></defs>
+<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/><style>.label{font-family:Segoe UI,Arial,sans-serif;fill:#1e2934}.edge-label{font-family:Segoe UI,Arial,sans-serif;fill:#304453}.lane-label{font-family:Segoe UI,Arial,sans-serif;font-weight:600;fill:#334b5a}.node{stroke:#314554;stroke-width:1.8}.edge{fill:none;stroke:#263746;stroke-width:1.7}.message{fill:none;stroke:#526b7b;stroke-width:1.5;stroke-dasharray:8 6}</style>
+<rect class="node" x="30" y="60" width="3200" height="820" rx="2" fill="#ffffff"/>
+<text class="lane-label" x="110" y="474.08" text-anchor="middle" font-size="12">
+<tspan x="110" dy="0">Hospital Patient Administration System</tspan>
+</text>
+<rect class="node" x="60" y="950" width="850" height="80" rx="2" fill="#f9fbfc" stroke-dasharray="7 5"/>
+<text class="lane-label" x="140" y="994.08" text-anchor="middle" font-size="12">
+<tspan x="140" dy="0">External Laboratory or Imaging Service</tspan>
+</text>
+<rect class="node" x="1030" y="950" width="900" height="80" rx="2" fill="#f9fbfc" stroke-dasharray="7 5"/>
+<text class="lane-label" x="1110" y="994.08" text-anchor="middle" font-size="12">
+<tspan x="1110" dy="0">External Treatment or Scheduling Service</tspan>
+</text>
+<rect class="node" x="2050" y="950" width="850" height="80" rx="2" fill="#f9fbfc" stroke-dasharray="7 5"/>
+<text class="lane-label" x="2130" y="994.08" text-anchor="middle" font-size="12">
+<tspan x="2130" dy="0">External Correspondence Service</tspan>
+</text>
+<rect x="60" y="60" width="3140" height="190" fill="#f8fafc" stroke="#c6d2da" stroke-width="1"/>
+<text class="lane-label" x="80" y="155" text-anchor="middle" font-size="12" transform="rotate(-90 80 155)">Clinical Nurse Specialist Team</text>
+<line x1="98" y1="60" x2="98" y2="250" stroke="#c6d2da" stroke-width="1"/>
+<rect x="60" y="250" width="3140" height="270" fill="#f1f6f8" stroke="#c6d2da" stroke-width="1"/>
+<text class="lane-label" x="80" y="385" text-anchor="middle" font-size="12" transform="rotate(-90 80 385)">Consultant or Authorised Clinical Professional</text>
+<line x1="98" y1="250" x2="98" y2="520" stroke="#c6d2da" stroke-width="1"/>
+<rect x="60" y="520" width="3140" height="180" fill="#f8fafc" stroke="#c6d2da" stroke-width="1"/>
+<text class="lane-label" x="80" y="610" text-anchor="middle" font-size="12" transform="rotate(-90 80 610)">Treatment or Chemotherapy Bookings Team</text>
+<line x1="98" y1="520" x2="98" y2="700" stroke="#c6d2da" stroke-width="1"/>
+<rect x="60" y="700" width="3140" height="180" fill="#f1f6f8" stroke="#c6d2da" stroke-width="1"/>
+<text class="lane-label" x="80" y="790" text-anchor="middle" font-size="12" transform="rotate(-90 80 790)">Finance Team</text>
+<line x1="98" y1="700" x2="98" y2="880" stroke="#c6d2da" stroke-width="1"/>
+<path class="edge" d="M 174 142 L 225 142" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 269 142 L 330 142" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="299" y="176.74" text-anchor="middle" font-size="11">
+<tspan x="299" dy="0">Cycle review</tspan>
+</text>
+<path class="edge" d="M 269 142 L 294 142 L 294 80 L 1985 80 L 1985 358" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="294" y="72.4" text-anchor="middle" font-size="10">
+<tspan x="294" dy="0">Change request</tspan>
+</text>
+<path class="edge" d="M 247 164 L 247 176" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="178" y="196.74" text-anchor="middle" font-size="11">
+<tspan x="178" dy="0">Other or missing</tspan>
+</text>
+<path class="edge" d="M 500 142 L 515 142 L 530 142" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 574 142 L 590 142 L 590 229 L 610 229" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="595" y="184.74" text-anchor="middle" font-size="11">
+<tspan x="595" dy="0">No / error</tspan>
+</text>
+<path class="edge" d="M 780 229 L 820 229 L 820 95 L 385 95 L 385 108" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="820" y="87.4" text-anchor="middle" font-size="10">
+<tspan x="820" dy="0">Controlled retry</tspan>
+</text>
+<path class="edge" d="M 552 164 L 552 280 L 644 280 L 644 344 L 680 344" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="644" y="272.4" text-anchor="middle" font-size="10">
+<tspan x="644" dy="0">Yes</tspan>
+</text>
+<path class="edge" d="M 850 344 L 874 344 L 910 344" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 954 344 L 1024 344 L 1024 312 L 1060 312" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1024" y="336.4" text-anchor="middle" font-size="10">
+<tspan x="1024" dy="0">Continue</tspan>
+</text>
+<path class="edge" d="M 1145 278 L 1245 278 L 1245 260 L 2250 260 L 2250 540 L 2145 540 L 2145 570" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 954 344 L 1024 344 L 1024 442 L 1060 442" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1024" y="336.4" text-anchor="middle" font-size="10">
+<tspan x="1024" dy="0">Delay</tspan>
+</text>
+<path class="edge" d="M 1104 442 L 1184 442 L 1184 452 L 1220 452" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1184" y="434.4" text-anchor="middle" font-size="10">
+<tspan x="1184" dy="0">No</tspan>
+</text>
+<path class="edge" d="M 1390 452 L 1434 452 L 1434 392 L 1800 392" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 1060 442 L 1020 442 L 1020 250 L 1245 250 L 1245 312 L 1280 312" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1020" y="242.4" text-anchor="middle" font-size="10">
+<tspan x="1020" dy="0">Yes</tspan>
+</text>
+<path class="edge" d="M 1650 312 L 1670 312 L 1670 300 L 1700 300" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 1744 290 L 1810 290 L 1810 376 L 1900 376" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1775" y="341.74" text-anchor="middle" font-size="11">
+<tspan x="1775" dy="0">Confirm</tspan>
+</text>
+<path class="edge" d="M 1744 310 L 1840 310 L 1840 408 L 1900 408" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1775" y="361.74" text-anchor="middle" font-size="11">
+<tspan x="1775" dy="0">Amend</tspan>
+</text>
+<path class="edge" d="M 1722 322 L 1780 322 L 1780 462 L 1700 462" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="1724" y="382.74" text-anchor="middle" font-size="11">
+<tspan x="1724" dy="0">No / cancel</tspan>
+</text>
+<path class="edge" d="M 932 322 L 932 260 L 1985 260 L 1985 358" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="932" y="252.4" text-anchor="middle" font-size="10">
+<tspan x="932" dy="0">Change treatment</tspan>
+</text>
+<path class="edge" d="M 2070 392 L 2100 392 L 2130 392" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 2174 392 L 2230 392 L 2300 392" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2230" y="384.4" text-anchor="middle" font-size="10">
+<tspan x="2230" dy="0">No</tspan>
+</text>
+<path class="edge" d="M 2174 392 L 2200 392 L 2200 540 L 2145 540 L 2145 570" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2200" y="532.4" text-anchor="middle" font-size="10">
+<tspan x="2200" dy="0">Yes</tspan>
+</text>
+<path class="edge" d="M 2230 604 L 2244 604 L 2244 780 L 2280 780" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2244" y="596.4" text-anchor="middle" font-size="10">
+<tspan x="2244" dy="0">Yes</tspan>
+</text>
+<path class="edge" d="M 2324 780 L 2404 780 L 2440 780" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2404" y="772.4" text-anchor="middle" font-size="10">
+<tspan x="2404" dy="0">Yes</tspan>
+</text>
+<path class="edge" d="M 2610 780 L 2614 780 L 2614 604 L 2650 604" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 2302 758 L 2302 680 L 2735 680 L 2735 638" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2302" y="672.4" text-anchor="middle" font-size="10">
+<tspan x="2302" dy="0">No</tspan>
+</text>
+<path class="edge" d="M 2820 604 L 2844 604 L 2880 604" marker-end="url(#sequence-arrow)"/>
+<path class="message" d="M 2700 950 L 2720 900 L 2720 604" marker-end="url(#message-arrow)"/>
+<text class="edge-label" x="2720" y="892.4" text-anchor="middle" font-size="10">
+<tspan x="2720" dy="0">Delivery status</tspan>
+</text>
+<path class="message" d="M 385 176 L 385 910 L 300 950" marker-end="url(#message-arrow)"/>
+<text class="edge-label" x="385" y="902.4" text-anchor="middle" font-size="10">
+<tspan x="385" dy="0">Results request</tspan>
+</text>
+<path class="message" d="M 1680 950 L 2045 900 L 2045 638" marker-end="url(#message-arrow)"/>
+<text class="edge-label" x="2045" y="892.4" text-anchor="middle" font-size="10">
+<tspan x="2045" dy="0">Confirmation, failure or no-slot response</tspan>
+</text>
+<path class="message" d="M 2045 638 L 1480 910 L 1480 950" marker-end="url(#message-arrow)"/>
+<text class="edge-label" x="1480" y="902.4" text-anchor="middle" font-size="10">
+<tspan x="1480" dy="0">Authorised scheduling request</tspan>
+</text>
+<path class="message" d="M 520 950 L 520 300 L 552 164" marker-end="url(#message-arrow)"/>
+<text class="edge-label" x="520" y="292.4" text-anchor="middle" font-size="10">
+<tspan x="520" dy="0">Results or unavailable response</tspan>
+</text>
+<path class="message" d="M 2635 638 L 2470 900 L 2470 950" marker-end="url(#message-arrow)"/>
+<text class="edge-label" x="2470" y="892.4" text-anchor="middle" font-size="10">
+<tspan x="2470" dy="0">Authorised patient notification</tspan>
+</text>
+<path class="edge" d="M 1450 312 L 1480 312" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 2130 604 L 2180 604" marker-end="url(#sequence-arrow)"/>
+<path class="edge" d="M 2324 604 L 2390 604 L 2420 604" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2362" y="592.74" text-anchor="middle" font-size="11">
+<tspan x="2362" dy="0">No / retry</tspan>
+</text>
+<path class="edge" d="M 2505 570 L 2505 530 L 2145 530 L 2145 570" marker-end="url(#sequence-arrow)"/>
+<text class="edge-label" x="2305" y="548.74" text-anchor="middle" font-size="11">
+<tspan x="2305" dy="0">Controlled retry</tspan>
+</text>
+<circle class="node" cx="152" cy="142" r="20" fill="#ffffff"/>
+<text class="label" x="119" y="101.74" text-anchor="middle" font-size="11">
+<tspan x="119" dy="0">Request received</tspan>
+</text>
+<polygon class="node" points="247,120 269,142 247,164 225,142" fill="#fff7dc"/>
+<path d="M 239.96 134.96 L 254.04 149.04 M 254.04 134.96 L 239.96 149.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="251" y="101.74" text-anchor="middle" font-size="11">
+<tspan x="251" dy="0">Request type?</tspan>
+</text>
+<circle cx="247" cy="198" r="20" fill="#ffffff" stroke="#314554" stroke-width="3.5"/>
+<text class="label" x="247" y="236.74" text-anchor="middle" font-size="11">
+<tspan x="247" dy="0">Invalid request; no change</tspan>
+</text>
+<rect class="node" x="330" y="108" width="170" height="68" rx="8" fill="#e7f5ee"/>
+<text class="label" x="415" y="146.08" text-anchor="middle" font-size="12">
+<tspan x="415" dy="0">Request required blood, laboratory or imaging results</tspan>
+</text>
+<polygon class="node" points="552,120 574,142 552,164 530,142" fill="#fff7dc"/>
+<path d="M 544.96 134.96 L 559.04 149.04 M 559.04 134.96 L 544.96 149.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="552" y="101.74" text-anchor="middle" font-size="11">
+<tspan x="552" dy="0">Required results available?</tspan>
+</text>
+<rect class="node" x="610" y="195" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="695" y="233.08" text-anchor="middle" font-size="12">
+<tspan x="695" dy="0">Record missing results and retry</tspan>
+</text>
+<rect class="node" x="680" y="310" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="765" y="348.08" text-anchor="middle" font-size="12">
+<tspan x="765" dy="0">Review results and patient condition</tspan>
+</text>
+<polygon class="node" points="932,322 954,344 932,366 910,344" fill="#fff7dc"/>
+<path d="M 924.96 336.96 L 939.04 351.04 M 939.04 336.96 L 924.96 351.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="932" y="309.74" text-anchor="middle" font-size="11">
+<tspan x="932" dy="0">Clinical decision?</tspan>
+</text>
+<rect class="node" x="1060" y="278" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="1145" y="316.08" text-anchor="middle" font-size="12">
+<tspan x="1145" dy="0">Authorise next cycle</tspan>
+</text>
+<polygon class="node" points="1082,420 1104,442 1082,464 1060,442" fill="#fff7dc"/>
+<path d="M 1074.96 434.96 L 1089.04 449.04 M 1089.04 434.96 L 1074.96 449.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="1082" y="407.74" text-anchor="middle" font-size="11">
+<tspan x="1082" dy="0">Urgent safety hold?</tspan>
+</text>
+<rect class="node" x="1220" y="418" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="1305" y="456.08" text-anchor="middle" font-size="12">
+<tspan x="1305" dy="0">Record delay reason and plan</tspan>
+</text>
+<rect class="node" x="1280" y="278" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="1365" y="316.08" text-anchor="middle" font-size="12">
+<tspan x="1365" dy="0">Apply urgent safety hold</tspan>
+</text>
+<rect class="node" x="1900" y="358" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="1985" y="396.08" text-anchor="middle" font-size="12">
+<tspan x="1985" dy="0">Validate formal treatment change</tspan>
+</text>
+<polygon class="node" points="2152,370 2174,392 2152,414 2130,392" fill="#fff7dc"/>
+<path d="M 2144.96 384.96 L 2159.04 399.04 M 2159.04 384.96 L 2144.96 399.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="2152" y="357.74" text-anchor="middle" font-size="11">
+<tspan x="2152" dy="0">Formally authorised?</tspan>
+</text>
+<circle cx="2322" cy="392" r="20" fill="#ffffff" stroke="#314554" stroke-width="3.5"/>
+<text class="label" x="2322" y="396.08" text-anchor="middle" font-size="12">
+<tspan x="2322" dy="0">Change rejected; schedule unchanged</tspan>
+</text>
+<rect class="node" x="2060" y="570" width="170" height="68" rx="8" fill="#e7f5ee"/>
+<text class="label" x="2145" y="608.08" text-anchor="middle" font-size="12">
+<tspan x="2145" dy="0">Update treatment schedule once</tspan>
+</text>
+<rect class="node" x="2650" y="570" width="170" height="68" rx="8" fill="#e7f5ee"/>
+<text class="label" x="2735" y="608.08" text-anchor="middle" font-size="12">
+<tspan x="2735" dy="0">Notify patient; record outcome</tspan>
+</text>
+<circle cx="2902" cy="604" r="20" fill="#ffffff" stroke="#314554" stroke-width="3.5"/>
+<text class="label" x="2902" y="608.08" text-anchor="middle" font-size="12">
+<tspan x="2902" dy="0">Plan, communication and audit complete</tspan>
+</text>
+<polygon class="node" points="2302,758 2324,780 2302,802 2280,780" fill="#fff7dc"/>
+<path d="M 2294.96 772.96 L 2309.04 787.04 M 2309.04 772.96 L 2294.96 787.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="2302" y="745.74" text-anchor="middle" font-size="11">
+<tspan x="2302" dy="0">Financial impact?</tspan>
+</text>
+<rect class="node" x="2440" y="746" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="2525" y="784.08" text-anchor="middle" font-size="12">
+<tspan x="2525" dy="0">Assess funding and payment impact</tspan>
+</text>
+<rect class="node" x="1480" y="278" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="1565" y="316.08" text-anchor="middle" font-size="12">
+<tspan x="1565" dy="0">Obtain follow-up authorisation</tspan>
+</text>
+<polygon class="node" points="1722,278 1744,300 1722,322 1700,300" fill="#fff7dc"/>
+<path d="M 1714.96 292.96 L 1729.04 307.04 M 1729.04 292.96 L 1714.96 307.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="1722" y="239.74" text-anchor="middle" font-size="11">
+<tspan x="1722" dy="0">Follow-up authorised?</tspan>
+</text>
+<circle cx="1722" cy="462" r="20" fill="#ffffff" stroke="#314554" stroke-width="3.5"/>
+<text class="label" x="1722" y="505.74" text-anchor="middle" font-size="11">
+<tspan x="1722" dy="0">Urgent hold retained; no schedule change</tspan>
+</text>
+<polygon class="node" points="2302,582 2324,604 2302,626 2280,604" fill="#fff7dc"/>
+<path d="M 2294.96 596.96 L 2309.04 611.04 M 2309.04 596.96 L 2294.96 611.04" stroke="#526374" stroke-width="1.5"/>
+<text class="label" x="2302" y="569.74" text-anchor="middle" font-size="11">
+<tspan x="2302" dy="0">Schedule confirmed?</tspan>
+</text>
+<rect class="node" x="2420" y="570" width="170" height="68" rx="8" fill="#eef5ff"/>
+<text class="label" x="2505" y="608.08" text-anchor="middle" font-size="12">
+<tspan x="2505" dy="0">Keep booking pending; investigate</tspan>
+</text>
+</svg>
