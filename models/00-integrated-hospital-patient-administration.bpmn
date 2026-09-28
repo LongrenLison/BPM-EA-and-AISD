@@ -32,6 +32,7 @@
   <bpmn:process id="Process_HospitalAdministration" name="Integrated hospital patient administration" isExecutable="true">
     <bpmn:laneSet id="LaneSet_Integrated">
       <bpmn:lane id="Lane_Secretaries" name="Medical Secretaries and Call Handling Team">
+        <bpmn:flowNodeRef>Start_Manual</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Start_Journey</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>R_CheckDocuments</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Q_Record</bpmn:flowNodeRef>
@@ -100,6 +101,7 @@
         <bpmn:flowNodeRef>Q_SupportContact</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
+    <bpmn:startEvent id="Start_Manual" name="Start process" />
     <bpmn:startEvent id="Start_Journey" name="Referral received">
       <bpmn:messageEventDefinition messageRef="Message_ReferralReceived" />
     </bpmn:startEvent>
@@ -307,6 +309,7 @@
     <bpmn:boundaryEvent id="T_ExternalUnavailable" name="External service unavailable" attachedToRef="T_CheckCapacity">
       <bpmn:errorEventDefinition />
     </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="F_ManualStart_Check" sourceRef="Start_Manual" targetRef="R_CheckDocuments" />
     <bpmn:sequenceFlow id="F_Start_Check" sourceRef="Start_Journey" targetRef="R_CheckDocuments" />
     <bpmn:sequenceFlow id="F_Request_Check" sourceRef="R_RequestInformation" targetRef="R_CheckDocuments" />
     <bpmn:sequenceFlow id="F_Check_Gateway" sourceRef="R_CheckDocuments" targetRef="R_DocumentsComplete" />
@@ -469,6 +472,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_Secretaries_di" bpmnElement="Lane_Secretaries" isHorizontal="true">
         <dc:Bounds x="190" y="195" width="5870" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Start_Manual_di" bpmnElement="Start_Manual">
+        <dc:Bounds x="260" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="222" y="228" width="112" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Start_Journey_di" bpmnElement="Start_Journey">
         <dc:Bounds x="260" y="332" width="36" height="36" />
@@ -692,6 +701,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="F_Start_Check_di" bpmnElement="F_Start_Check">
         <di:waypoint x="296" y="350" />
+        <di:waypoint x="350" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F_ManualStart_Check_di" bpmnElement="F_ManualStart_Check">
+        <di:waypoint x="296" y="270" />
+        <di:waypoint x="323" y="270" />
+        <di:waypoint x="323" y="350" />
         <di:waypoint x="350" y="350" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F_Request_Check_di" bpmnElement="F_Request_Check">
