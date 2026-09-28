@@ -1,0 +1,12 @@
+{
+  "components": [
+    { "label": "Treatment request authorisation status", "type": "select", "key": "treatmentRequestAuthorised", "values": [ { "label": "Authorised", "value": "authorised" }, { "label": "Not authorised — stop request", "value": "notAuthorised" } ], "validate": { "required": true }, "id": "treatmentRequestAuthorised" },
+    { "label": "Consent and authorisation notes", "type": "textarea", "key": "authorisationNotes", "id": "authorisationNotes" }
+  ],
+  "type": "default",
+  "id": "treatment-authorisation",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" },
+  "schemaVersion": 19
+}

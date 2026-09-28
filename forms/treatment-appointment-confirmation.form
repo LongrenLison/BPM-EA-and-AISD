@@ -1,0 +1,12 @@
+{
+  "components": [
+    { "label": "Treatment appointment details", "type": "textarea", "key": "treatmentAppointmentDetails", "validate": { "required": true }, "id": "treatmentAppointmentDetails" },
+    { "label": "Patient notification recorded", "type": "checkbox", "key": "treatmentPatientNotified", "id": "treatmentPatientNotified" }
+  ],
+  "type": "default",
+  "id": "treatment-appointment-confirmation",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" },
+  "schemaVersion": 19
+}

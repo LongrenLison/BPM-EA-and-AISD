@@ -1,25 +1,28 @@
 # Hospital Patient Administration System
 
-Initial Sprint 1 BPMN increment for the hospital referral, treatment and administration case study.
+This repository contains the integrated, executable Camunda 8 initial release
+for the hospital patient administration case study.
 
-## Models
+## Submitted implementation artefacts
 
-| File | Purpose | Executable |
-|---|---|---|
-| `models/00-entities-and-collaboration.bpmn` | Stakeholder collaboration map: all hospital roles are lanes and independent external parties are pools. | No |
-| `models/01-referral-and-first-appointment.bpmn` | Receive, clinically review, accept and book a new referral. | Yes |
-| `models/02-treatment-booking-and-funding.bpmn` | Authorise treatment, obtain capacity/funding, and manage payment outcomes. | Yes |
-| `models/03-patient-enquiry-routing.bpmn` | Classify patient contact and route administrative, financial and clinical enquiries. | Yes |
-| `models/04-clinic-letter-monitoring.bpmn` | Author, approve, distribute and monitor clinic letters. | Yes |
+- `models/00-integrated-hospital-patient-administration.bpmn` — the sole
+  editable BPMN model.  It contains the referral, treatment and patient-enquiry
+  routes, User Tasks, Service Tasks, gateways, events, participant interaction
+  and task-to-form bindings.
+- `forms/` — editable Camunda Forms referenced by the User Tasks in the model.
+- `workers/referral-service-worker.mjs` — Node.js 18+ external worker for the
+  Service Task job types.
+- `workers/README.md` and `RUN-INTEGRATED-PROCESS.md` — dependency,
+  configuration, deployment and demonstration instructions.
 
-Open any model in Camunda Modeler. The executable models use Camunda 8 Zeebe job types for simulated external services. Workers and Camunda Forms will be added in the next implementation increment.
+## Quick start
 
-## Responsibility boundaries
+1. Deploy the BPMN file and every form in `forms/` to the Camunda 8 local
+   connection.
+2. Run `node .\\workers\\referral-service-worker.mjs`.
+3. Follow `RUN-INTEGRATED-PROCESS.md` to create an instance and complete its
+   user tasks in Tasklist.
 
-Clinical acceptance, treatment consent, treatment modification, and clinical advice are assigned only to clinical lanes. Finance owns funding, payment and refund decisions. Administrative lanes coordinate records, communications and scheduling but do not make clinical or financial decisions.
-
-## Simulation job types
-
-`referral.request-information`, `scheduling.search`, `scheduling.reserve`, `correspondence.dispatch`, `treatment.capacity-check`, `funding.assess`, `payment.request`, `clinic-letter.distribute`
-
-Each worker must return a correlation-safe result keyed by `patientId` and the relevant business reference (for example, `referralId`, `treatmentRequestId` or `paymentReference`). Payment workers must treat a missing provider confirmation as `investigate`, never as a failed payment requiring automatic retry.
+The worker deliberately simulates external scheduling, funding, payment and
+correspondence services. Its configuration variables and demonstration limits
+are documented in `workers/README.md`.

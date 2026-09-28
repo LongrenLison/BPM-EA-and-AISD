@@ -1,0 +1,18 @@
+{
+  "components": [
+    {
+      "label": "Clinical urgency",
+      "type": "select",
+      "key": "clinicalUrgency",
+      "values": [
+        { "label": "Routine", "value": "routine" },
+        { "label": "Urgent", "value": "urgent" }
+      ],
+      "validate": { "required": true },
+      "id": "clinicalUrgency"
+    },
+    { "label": "Triage notes", "type": "textarea", "key": "triageNotes", "validate": { "required": true }, "id": "triageNotes" }
+  ],
+  "type": "default", "id": "enquiry-clinical-triage", "executionPlatform": "Camunda Cloud", "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" }, "schemaVersion": 19
+}
