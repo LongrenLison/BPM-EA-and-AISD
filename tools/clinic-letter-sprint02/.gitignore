@@ -1,5 +1,0 @@
-node_modules/
-tmp/
-__pycache__/
-evidence/local-state.json
-evidence/.local-demo.lock
