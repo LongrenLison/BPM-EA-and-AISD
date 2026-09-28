@@ -1,0 +1,49 @@
+{
+  "components": [
+    {
+      "label": "Scheduling request ID",
+      "type": "textfield",
+      "key": "scheduleRequestId",
+      "validate": {
+        "required": true
+      },
+      "id": "scheduleRequestId"
+    },
+    {
+      "label": "Failure, timeout or no-slot reason",
+      "type": "textarea",
+      "key": "scheduleFailureReason",
+      "validate": {
+        "required": true
+      },
+      "id": "scheduleFailureReason"
+    },
+    {
+      "label": "Existing appointment checked",
+      "type": "checkbox",
+      "key": "existingAppointmentChecked",
+      "validate": {
+        "required": true
+      },
+      "id": "existingAppointmentChecked"
+    },
+    {
+      "label": "Safe to retry with the same correlation key",
+      "type": "checkbox",
+      "key": "scheduleRetrySafe",
+      "validate": {
+        "required": true
+      },
+      "id": "scheduleRetrySafe"
+    }
+  ],
+  "type": "default",
+  "id": "cycle-schedule-failure",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.51.1"
+  },
+  "schemaVersion": 19
+}

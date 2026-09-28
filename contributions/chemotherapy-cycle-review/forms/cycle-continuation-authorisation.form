@@ -1,0 +1,49 @@
+{
+  "components": [
+    {
+      "label": "Confirm patient is fit for the next cycle",
+      "type": "checkbox",
+      "key": "continuationFitConfirmed",
+      "validate": {
+        "required": true
+      },
+      "id": "continuationFitConfirmed"
+    },
+    {
+      "label": "Authorising clinician",
+      "type": "textfield",
+      "key": "continuationAuthoriser",
+      "validate": {
+        "required": true
+      },
+      "id": "continuationAuthoriser"
+    },
+    {
+      "label": "Clinical reason",
+      "type": "textarea",
+      "key": "continuationReason",
+      "validate": {
+        "required": true
+      },
+      "id": "continuationReason"
+    },
+    {
+      "label": "Authorisation date and time",
+      "type": "textfield",
+      "key": "continuationAuthorisedAt",
+      "validate": {
+        "required": true
+      },
+      "id": "continuationAuthorisedAt"
+    }
+  ],
+  "type": "default",
+  "id": "cycle-continuation-authorisation",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.51.1"
+  },
+  "schemaVersion": 19
+}
