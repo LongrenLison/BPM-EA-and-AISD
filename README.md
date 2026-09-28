@@ -26,3 +26,25 @@ for the hospital patient administration case study.
 The worker deliberately simulates external scheduling, funding, payment and
 correspondence services. Its configuration variables and demonstration limits
 are documented in `workers/README.md`.
+
+## Standalone Clinic Letter personal module
+
+The independent [Clinic Letter module](tools/clinic-letter-sprint02/README.md)
+adds editable normal-time and accelerated BPMN models, four bound forms,
+simulated workers, readable PNG/SVG/PDF diagrams, a local runner, test plans,
+test evidence and a short bilingual briefing. It has **not** been connected to
+the integrated model above; the existing group models, forms and workers are
+unchanged by this addition.
+
+- [Personal status](tools/clinic-letter-sprint02/PERSONAL_STATUS.md)
+- [Editable BPMN](tools/clinic-letter-sprint02/clinic-letter-sprint02.bpmn)
+- [Diagram](tools/clinic-letter-sprint02/clinic-letter-preview.png)
+- [Test results](tools/clinic-letter-sprint02/TEST_RESULTS.md)
+- [Local demo instructions](tools/clinic-letter-sprint02/DEMO_RUN_GUIDE.md)
+
+Verification: 55 offline checks and eight local Camunda 8.9.21 API scenarios
+passed. Dispatch and notifications remain simulated; real email, role
+permissions and formal long-duration timers are not verified. The case's
+approximately two-week receipt target is not represented as a separate
+delivery-confirmation workflow; the seven-day dispatch and delay-monitoring
+model is preserved. Uploading this module is not an assessment submission.

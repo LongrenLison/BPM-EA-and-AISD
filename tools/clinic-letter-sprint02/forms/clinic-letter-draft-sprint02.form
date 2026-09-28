@@ -1,0 +1,177 @@
+{
+  "id": "clinic-letter-draft-sprint02",
+  "components": [
+    {
+      "type": "text",
+      "id": "draft_corrections",
+      "text": "Consultant rejection reason: {{rejectionReason}}\n\nSecretary's suspected clinical error: {{clinicalCorrectionReason}}\n\nOnly the Consultant may review and change clinical meaning.",
+      "layout": {
+        "row": "Row_draft_corrections",
+        "columns": null
+      }
+    },
+    {
+      "type": "select",
+      "id": "Field_letterType",
+      "key": "letterType",
+      "label": "Clinic letter type",
+      "defaultValue": "NEW_PATIENT",
+      "values": [
+        {
+          "label": "New Patient Clinic Letter",
+          "value": "NEW_PATIENT"
+        },
+        {
+          "label": "Follow-up Clinic Letter",
+          "value": "FOLLOW_UP"
+        }
+      ],
+      "validate": {
+        "required": true
+      },
+      "layout": {
+        "row": "Row_Field_letterType",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_diagnosis",
+      "key": "diagnosis",
+      "label": "Diagnosis (demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": true,
+        "maxLength": 2000
+      },
+      "layout": {
+        "row": "Row_Field_diagnosis",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_clinicalFindings",
+      "key": "clinicalFindings",
+      "label": "Clinical findings (demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": true,
+        "maxLength": 2000
+      },
+      "layout": {
+        "row": "Row_Field_clinicalFindings",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_treatmentDecisions",
+      "key": "treatmentDecisions",
+      "label": "Treatment decisions (demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": true,
+        "maxLength": 2000
+      },
+      "layout": {
+        "row": "Row_Field_treatmentDecisions",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_communicationInstructions",
+      "key": "communicationInstructions",
+      "label": "Instructions to communicate (demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": true,
+        "maxLength": 2000
+      },
+      "layout": {
+        "row": "Row_Field_communicationInstructions",
+        "columns": null
+      }
+    },
+    {
+      "type": "textfield",
+      "id": "Field_intendedRecipients",
+      "key": "intendedRecipients",
+      "label": "Consultant-selected recipient roles: PATIENT, GP, HEALTHCARE_PROVIDER, OTHER_PROFESSIONAL",
+      "defaultValue": "PATIENT,GP",
+      "validate": {
+        "required": true
+      },
+      "layout": {
+        "row": "Row_Field_intendedRecipients",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_delayReason",
+      "key": "delayReason",
+      "label": "Valid delay reason (optional; demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": false,
+        "maxLength": 500
+      },
+      "layout": {
+        "row": "Row_Field_delayReason",
+        "columns": null
+      }
+    },
+    {
+      "type": "text",
+      "text": "DEMO DATA ONLY. Consultant owns clinical content. Do not enter real patient data.",
+      "id": "Field_draft_0",
+      "layout": {
+        "row": "Row_0",
+        "columns": null
+      }
+    },
+    {
+      "type": "textfield",
+      "key": "clinicLetterId",
+      "label": "Letter reference (demo only)",
+      "validate": {
+        "required": true
+      },
+      "id": "Field_draft_1",
+      "layout": {
+        "row": "Row_1",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "key": "clinicalSummary",
+      "label": "Clinical summary (demo only)",
+      "validate": {
+        "required": true
+      },
+      "id": "Field_draft_2",
+      "layout": {
+        "row": "Row_2",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "key": "followUpPlan",
+      "label": "Follow-up plan",
+      "validate": {
+        "required": true
+      },
+      "id": "Field_draft_3",
+      "layout": {
+        "row": "Row_3",
+        "columns": null
+      }
+    }
+  ],
+  "type": "default",
+  "schemaVersion": 18
+}

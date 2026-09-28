@@ -1,0 +1,1147 @@
+{
+  "startedAt": "2026-09-28T01:09:24.585Z",
+  "sourceSha256": "277d7f0465c8069bebbfee4c7f4603a146b64d39ecd776fe2d193213c4ca831b",
+  "processDefinitionKey": "2251799813690240",
+  "syntheticOnly": true,
+  "scenarios": [
+    {
+      "name": "NORMAL",
+      "clinicLetterId": "DEMO-CL-PERSONAL-NORMAL-1790557764585",
+      "processInstanceKey": "2251799813691857",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813691879",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813691891",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813691924",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813691945",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813691963",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:24.597Z",
+        "endDate": "2026-09-28T01:09:26.803Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813691857",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813691857",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicLetterId": "DEMO-CL-PERSONAL-NORMAL-1790557764585",
+        "clinicalCorrectionRequested": false,
+        "draftStartedAt": "2026-09-28T01:09:24.632Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:26.74@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:25.464@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:26.288@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "distributionMethod": "SIMULATED_LOCAL",
+        "dispatchStatus": "SIMULATED_SENT",
+        "letterSentAt": "2026-09-28T01:09:26.788Z"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813691891",
+          "creationDate": "2026-09-28T01:09:24.656Z",
+          "completionDate": "2026-09-28T01:09:25.467Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813691924",
+          "creationDate": "2026-09-28T01:09:25.464Z",
+          "completionDate": "2026-09-28T01:09:26.288Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813691945",
+          "creationDate": "2026-09-28T01:09:26.288Z",
+          "completionDate": "2026-09-28T01:09:26.744Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "CLINICAL_REWORK",
+      "clinicLetterId": "DEMO-CL-PERSONAL-CLINICAL_REWORK-1790557767439",
+      "processInstanceKey": "2251799813691984",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692006",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692018",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692046",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692062",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692067",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692092",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692112",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692130",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:27.454Z",
+        "endDate": "2026-09-28T01:09:30.593Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813691984",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813691984",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicalCorrectionRequested": false,
+        "clinicLetterId": "DEMO-CL-PERSONAL-CLINICAL_REWORK-1790557767439",
+        "draftStartedAt": "2026-09-28T01:09:28.426Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:30.546@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:29.233@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:30.093@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "letterSentAt": "2026-09-28T01:09:30.579Z"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692018",
+          "creationDate": "2026-09-28T01:09:27.518Z",
+          "completionDate": "2026-09-28T01:09:27.941Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692046",
+          "creationDate": "2026-09-28T01:09:27.941Z",
+          "completionDate": "2026-09-28T01:09:28.396Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692067",
+          "creationDate": "2026-09-28T01:09:28.439Z",
+          "completionDate": "2026-09-28T01:09:29.233Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692092",
+          "creationDate": "2026-09-28T01:09:29.233Z",
+          "completionDate": "2026-09-28T01:09:30.095Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692112",
+          "creationDate": "2026-09-28T01:09:30.095Z",
+          "completionDate": "2026-09-28T01:09:30.548Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "ADMIN_recipientChecked",
+      "clinicLetterId": "DEMO-CL-PERSONAL-ADMIN_recipientChecked-1790557771202",
+      "processInstanceKey": "2251799813692151",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692173",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692185",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692218",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692239",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692257",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692279",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:31.217Z",
+        "endDate": "2026-09-28T01:09:34.270Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813692151",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813692151",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicLetterId": "DEMO-CL-PERSONAL-ADMIN_recipientChecked-1790557771202",
+        "clinicalCorrectionRequested": false,
+        "draftStartedAt": "2026-09-28T01:09:31.266Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:34.225@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:32.076@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:32.931@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "letterSentAt": "2026-09-28T01:09:34.257Z",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "dispatchStatus": "SIMULATED_SENT"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692185",
+          "creationDate": "2026-09-28T01:09:31.282Z",
+          "completionDate": "2026-09-28T01:09:32.076Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692218",
+          "creationDate": "2026-09-28T01:09:32.076Z",
+          "completionDate": "2026-09-28T01:09:32.931Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692239",
+          "creationDate": "2026-09-28T01:09:32.931Z",
+          "completionDate": "2026-09-28T01:09:33.382Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692257",
+          "creationDate": "2026-09-28T01:09:33.382Z",
+          "completionDate": "2026-09-28T01:09:34.225Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "ADMIN_administrativeDetailsChecked",
+      "clinicLetterId": "DEMO-CL-PERSONAL-ADMIN_administrativeDetailsChecked-1790557774907",
+      "processInstanceKey": "2251799813692300",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692322",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692334",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692367",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692383",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692406",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692428",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:34.923Z",
+        "endDate": "2026-09-28T01:09:38.034Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813692300",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813692300",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicalCorrectionRequested": false,
+        "clinicLetterId": "DEMO-CL-PERSONAL-ADMIN_administrativeDetailsChecked-1790557774907",
+        "draftStartedAt": "2026-09-28T01:09:34.976Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:37.971@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:35.813@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:36.282@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "letterSentAt": "2026-09-28T01:09:38.018Z"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692334",
+          "creationDate": "2026-09-28T01:09:35.001Z",
+          "completionDate": "2026-09-28T01:09:35.816Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692367",
+          "creationDate": "2026-09-28T01:09:35.816Z",
+          "completionDate": "2026-09-28T01:09:36.282Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692383",
+          "creationDate": "2026-09-28T01:09:36.282Z",
+          "completionDate": "2026-09-28T01:09:37.137Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692406",
+          "creationDate": "2026-09-28T01:09:37.137Z",
+          "completionDate": "2026-09-28T01:09:37.971Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "SECRETARY_CLINICAL_CONCERN",
+      "clinicLetterId": "DEMO-CL-PERSONAL-SECRETARY_CLINICAL_CONCERN-1790557778235",
+      "processInstanceKey": "2251799813692444",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692466",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692478",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692511",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692527",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692545",
+          "simulated": true
+        },
+        {
+          "assertion": "Secretary clinical issue returns to doctor and clears prior approval"
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692550",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692575",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692590",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692607",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:38.242Z",
+        "endDate": "2026-09-28T01:09:41.861Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813692444",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813692444",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicLetterId": "DEMO-CL-PERSONAL-SECRETARY_CLINICAL_CONCERN-1790557778235",
+        "clinicalCorrectionRequested": false,
+        "draftStartedAt": "2026-09-28T01:09:40.060Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:41.813@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:40.916@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:41.358@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "dispatchStatus": "SIMULATED_SENT",
+        "letterSentAt": "2026-09-28T01:09:41.846Z",
+        "distributionMethod": "SIMULATED_LOCAL"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692478",
+          "creationDate": "2026-09-28T01:09:38.299Z",
+          "completionDate": "2026-09-28T01:09:39.120Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692511",
+          "creationDate": "2026-09-28T01:09:39.120Z",
+          "completionDate": "2026-09-28T01:09:39.574Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692527",
+          "creationDate": "2026-09-28T01:09:39.574Z",
+          "completionDate": "2026-09-28T01:09:40.029Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692550",
+          "creationDate": "2026-09-28T01:09:40.077Z",
+          "completionDate": "2026-09-28T01:09:40.916Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692575",
+          "creationDate": "2026-09-28T01:09:40.916Z",
+          "completionDate": "2026-09-28T01:09:41.358Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692590",
+          "creationDate": "2026-09-28T01:09:41.358Z",
+          "completionDate": "2026-09-28T01:09:41.813Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "BUSINESS_ERROR",
+      "clinicLetterId": "DEMO-CL-PERSONAL-BUSINESS_ERROR-1790557782520",
+      "processInstanceKey": "2251799813692628",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692650",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692662",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692690",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692711",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "throwBpmnError",
+          "jobKey": "2251799813692734",
+          "simulated": true
+        },
+        {
+          "elementId": "Retry",
+          "userTaskKey": "2251799813692741",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "dispatchResolution",
+            "retryAuthorised",
+            "simulateDispatchError",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Retry",
+          "userTaskKey": "2251799813692757",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "dispatchResolution",
+            "retryAuthorised",
+            "simulateDispatchError",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692778",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:42.534Z",
+        "endDate": "2026-09-28T01:09:46.001Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813692628",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813692628",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicLetterId": "DEMO-CL-PERSONAL-BUSINESS_ERROR-1790557782520",
+        "clinicalCorrectionRequested": false,
+        "draftStartedAt": "2026-09-28T01:09:42.582Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:44.671@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:43.017@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:43.843@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "dispatchStatus": "SIMULATED_SENT",
+        "letterSentAt": "2026-09-28T01:09:45.986Z",
+        "distributionMethod": "SIMULATED_LOCAL"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692662",
+          "creationDate": "2026-09-28T01:09:42.599Z",
+          "completionDate": "2026-09-28T01:09:43.017Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692690",
+          "creationDate": "2026-09-28T01:09:43.017Z",
+          "completionDate": "2026-09-28T01:09:43.843Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692711",
+          "creationDate": "2026-09-28T01:09:43.843Z",
+          "completionDate": "2026-09-28T01:09:44.671Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Retry",
+          "userTaskKey": "2251799813692741",
+          "creationDate": "2026-09-28T01:09:44.733Z",
+          "completionDate": "2026-09-28T01:09:45.138Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Retry",
+          "userTaskKey": "2251799813692757",
+          "creationDate": "2026-09-28T01:09:45.137Z",
+          "completionDate": "2026-09-28T01:09:45.955Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "TECHNICAL_RETRY",
+      "clinicLetterId": "DEMO-CL-PERSONAL-TECHNICAL_RETRY-1790557786650",
+      "processInstanceKey": "2251799813692799",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692821",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692833",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692861",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692882",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "fail",
+          "jobKey": "2251799813692900",
+          "simulated": true,
+          "technical": true,
+          "retriesLeft": 2
+        },
+        {
+          "action": "fail",
+          "jobKey": "2251799813692900",
+          "simulated": true,
+          "technical": true,
+          "retriesLeft": 1
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813692900",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:46.668Z",
+        "endDate": "2026-09-28T01:09:52.968Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813692799",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813692799",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicalCorrectionRequested": false,
+        "clinicLetterId": "DEMO-CL-PERSONAL-TECHNICAL_RETRY-1790557786650",
+        "draftStartedAt": "2026-09-28T01:09:46.714Z",
+        "administrativeProcessedAt": "2026-09-28T09:09:48.474@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:09:47.149@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:09:48.01@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "letterSentAt": "2026-09-28T01:09:52.959Z"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813692833",
+          "creationDate": "2026-09-28T01:09:46.728Z",
+          "completionDate": "2026-09-28T01:09:47.151Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813692861",
+          "creationDate": "2026-09-28T01:09:47.151Z",
+          "completionDate": "2026-09-28T01:09:48.012Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813692882",
+          "creationDate": "2026-09-28T01:09:48.012Z",
+          "completionDate": "2026-09-28T01:09:48.474Z",
+          "assignee": null
+        }
+      ]
+    },
+    {
+      "name": "DELAY",
+      "clinicLetterId": "DEMO-CL-PERSONAL-DELAY-1790557794044",
+      "processInstanceKey": "2251799813692977",
+      "steps": [
+        {
+          "action": "complete",
+          "jobKey": "2251799813692999",
+          "simulated": true
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813693098",
+          "simulated": true
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813693180",
+          "simulated": true
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813693199",
+          "simulated": true
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813693275",
+          "simulated": true
+        },
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813693011",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicLetterId",
+            "letterType",
+            "diagnosis",
+            "clinicalFindings",
+            "treatmentDecisions",
+            "communicationInstructions",
+            "intendedRecipients",
+            "clinicalSummary",
+            "followUpPlan",
+            "delayReason",
+            "reviewResponse"
+          ]
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813693306",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "clinicalApproved",
+            "rejectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813693322",
+          "formRetrieved": true,
+          "submittedFieldNames": [
+            "recipientChecked",
+            "administrativeDetailsChecked",
+            "clinicalCorrectionRequested",
+            "clinicalCorrectionReason",
+            "delayReason"
+          ]
+        },
+        {
+          "action": "complete",
+          "jobKey": "2251799813693340",
+          "simulated": true
+        }
+      ],
+      "status": "PASS",
+      "end": {
+        "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+        "processDefinitionName": "Clinic Letter Sprint 02 - DEMO 10/20/30 seconds",
+        "processDefinitionVersion": 2,
+        "processDefinitionVersionTag": null,
+        "startDate": "2026-09-28T01:09:54.059Z",
+        "endDate": "2026-09-28T01:10:26.388Z",
+        "state": "COMPLETED",
+        "hasIncident": false,
+        "tenantId": "<default>",
+        "processInstanceKey": "2251799813692977",
+        "processDefinitionKey": "2251799813690240",
+        "parentProcessInstanceKey": null,
+        "parentElementInstanceKey": null,
+        "rootProcessInstanceKey": "2251799813692977",
+        "tags": [],
+        "businessId": null
+      },
+      "metadata": {
+        "clinicLetterId": "DEMO-CL-PERSONAL-DELAY-1790557794044",
+        "clinicalCorrectionRequested": false,
+        "draftStartedAt": "2026-09-28T01:09:54.092Z",
+        "administrativeProcessedAt": "2026-09-28T09:10:26.33@Asia/Shanghai",
+        "clinicalApproved": true,
+        "recipientChecked": true,
+        "draftCompletedAt": "2026-09-28T09:10:25.449@Asia/Shanghai",
+        "approvedAt": "2026-09-28T09:10:25.901@Asia/Shanghai",
+        "administrativeDetailsChecked": true,
+        "distributionMethod": "SIMULATED_LOCAL",
+        "dispatchStatus": "SIMULATED_SENT",
+        "letterSentAt": "2026-09-28T01:10:26.370Z"
+      },
+      "completedTasks": [
+        {
+          "elementId": "Draft",
+          "userTaskKey": "2251799813693011",
+          "creationDate": "2026-09-28T01:09:54.106Z",
+          "completionDate": "2026-09-28T01:10:25.451Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Approve",
+          "userTaskKey": "2251799813693306",
+          "creationDate": "2026-09-28T01:10:25.451Z",
+          "completionDate": "2026-09-28T01:10:25.901Z",
+          "assignee": null
+        },
+        {
+          "elementId": "Admin",
+          "userTaskKey": "2251799813693322",
+          "creationDate": "2026-09-28T01:10:25.901Z",
+          "completionDate": "2026-09-28T01:10:26.330Z",
+          "assignee": null
+        }
+      ]
+    }
+  ],
+  "cancellation": {
+    "waitMs": 11000,
+    "remainingJobs": 0
+  },
+  "status": "PASS",
+  "finishedAt": "2026-09-28T01:10:38.106Z"
+}

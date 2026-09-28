@@ -1,0 +1,13 @@
+{
+  "recordType": "curated_summary_of_observed_test_output",
+  "date": "2026-09-28",
+  "command": "node --test tests/*.test.mjs",
+  "tests": 55,
+  "pass": 55,
+  "fail": 0,
+  "skipped": 0,
+  "groups": { "static": 17, "worker": 15, "adapter": 13, "auditHistory": 8, "localDemo": 2 },
+  "sourceSha256": "277d7f0465c8069bebbfee4c7f4603a146b64d39ecd776fe2d193213c4ca831b",
+  "hashScope": "two BPMN models, four forms, worker.mjs, adapter.mjs",
+  "scope": "offline static, pure handler, mocked HTTP/history and safety-entry tests; not engine or UI acceptance"
+}

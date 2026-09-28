@@ -1,0 +1,4 @@
+# Preserve exported binaries and byte-exact source/evidence fingerprints on Windows.
+* -text
+*.pdf binary
+*.png binary

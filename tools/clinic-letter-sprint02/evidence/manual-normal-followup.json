@@ -1,0 +1,45 @@
+{
+  "recordKind": "assistant-curated-followup",
+  "recordDateLocal": "2026-09-28",
+  "timezone": "Asia/Shanghai",
+  "scope": "Synthetic personal Clinic Letter demo; not production or assessment acceptance",
+  "processInstanceKey": "2251799813685896",
+  "processDefinitionId": "Process_ClinicLetterSprint02Demo",
+  "clinicLetterId": "DEMO-YOUR-TURN-1790538751928",
+  "historicalEvidence": "local-engine-e2e.json",
+  "historicalStatus": "READY_FOR_USER at the earlier API test snapshot",
+  "userActions": [
+    "Completed Draft in Tasklist with synthetic summary and follow-up plan",
+    "Completed Approve with clinicalApproved=true",
+    "Completed Admin with recipientChecked=true and administrativeDetailsChecked=true"
+  ],
+  "userActionEvidence": "User-provided Tasklist screenshots and subsequent task progression in this conversation",
+  "assistantAction": "After the bounded worker stopped, explicitly ran adapter.mjs --local-once to finish the simulated dispatch",
+  "verifiedBy": [
+    "GET /v2/process-instances/2251799813685896",
+    "POST /v2/user-tasks/search filtered to this instance and CREATED",
+    "POST /v2/incidents/search filtered to this instance and ACTIVE",
+    "POST /v2/variables/search filtered to this instance"
+  ],
+  "state": "COMPLETED",
+  "hasIncident": false,
+  "startDateUtc": "2026-09-27T19:52:31.941Z",
+  "endDateUtc": "2026-09-27T20:14:17.775Z",
+  "activeUserTaskCount": 0,
+  "activeIncidentCount": 0,
+  "observedVariables": {
+    "clinicalApproved": true,
+    "recipientChecked": true,
+    "administrativeDetailsChecked": true,
+    "dispatchStatus": "SIMULATED_SENT",
+    "dispatchReference": "demo-DEMO-YOUR-TURN-1790538751928",
+    "letterSentAt": "2026-09-27T20:14:17.770Z"
+  },
+  "limitations": [
+    "This is a curated record of live API observations, not an unmodified engine export",
+    "All notifications and dispatch are simulated; no real recipient was contacted",
+    "The user completed the three forms; the assistant supplied the final worker execution",
+    "User exception-path UI rehearsal remains pending",
+    "Historical API evidence must remain unchanged"
+  ]
+}

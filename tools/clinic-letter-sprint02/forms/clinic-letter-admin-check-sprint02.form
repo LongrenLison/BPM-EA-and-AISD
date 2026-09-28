@@ -1,0 +1,88 @@
+{
+  "id": "clinic-letter-admin-check-sprint02",
+  "components": [
+    {
+      "type": "text",
+      "id": "admin_recipients",
+      "text": "Consultant-selected recipient roles: {{intendedRecipients}}\n\nConfirm these recipients; do not replace the Consultant's clinical decision.",
+      "layout": {
+        "row": "Row_admin_recipients",
+        "columns": null
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "Field_clinicalCorrectionRequested",
+      "key": "clinicalCorrectionRequested",
+      "label": "Suspected clinical error: return to Consultant for review",
+      "defaultValue": false,
+      "layout": {
+        "row": "Row_Field_clinicalCorrectionRequested",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_clinicalCorrectionReason",
+      "key": "clinicalCorrectionReason",
+      "label": "Reason for Consultant review (complete if suspected clinical error)",
+      "defaultValue": "",
+      "validate": {
+        "required": false,
+        "maxLength": 2000
+      },
+      "layout": {
+        "row": "Row_Field_clinicalCorrectionReason",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_delayReason",
+      "key": "delayReason",
+      "label": "Valid delay reason (optional; demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": false,
+        "maxLength": 500
+      },
+      "layout": {
+        "row": "Row_Field_delayReason",
+        "columns": null
+      }
+    },
+    {
+      "type": "text",
+      "text": "Administrative check only: do not alter or approve clinical content.",
+      "id": "Field_admin-check_0",
+      "layout": {
+        "row": "Row_0",
+        "columns": null
+      }
+    },
+    {
+      "type": "checkbox",
+      "key": "recipientChecked",
+      "label": "Recipient / address checked",
+      "defaultValue": false,
+      "id": "Field_admin-check_1",
+      "layout": {
+        "row": "Row_1",
+        "columns": null
+      }
+    },
+    {
+      "type": "checkbox",
+      "key": "administrativeDetailsChecked",
+      "label": "Administrative details checked",
+      "defaultValue": false,
+      "id": "Field_admin-check_2",
+      "layout": {
+        "row": "Row_2",
+        "columns": null
+      }
+    }
+  ],
+  "type": "default",
+  "schemaVersion": 18
+}

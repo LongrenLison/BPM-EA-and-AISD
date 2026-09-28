@@ -1,0 +1,66 @@
+{
+  "id": "clinic-letter-dispatch-retry-sprint02",
+  "components": [
+    {
+      "type": "textarea",
+      "id": "Field_delayReason",
+      "key": "delayReason",
+      "label": "Valid delay reason (optional; demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": false,
+        "maxLength": 500
+      },
+      "layout": {
+        "row": "Row_Field_delayReason",
+        "columns": null
+      }
+    },
+    {
+      "type": "text",
+      "text": "Record correction before retry. This does not grant clinical approval. Clear the demo error flag for a successful retry.",
+      "id": "Field_dispatch-retry_0",
+      "layout": {
+        "row": "Row_0",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "key": "dispatchResolution",
+      "label": "Resolution / action recorded",
+      "validate": {
+        "required": true
+      },
+      "id": "Field_dispatch-retry_1",
+      "layout": {
+        "row": "Row_1",
+        "columns": null
+      }
+    },
+    {
+      "type": "checkbox",
+      "key": "retryAuthorised",
+      "label": "Ready to retry after correction",
+      "defaultValue": false,
+      "id": "Field_dispatch-retry_2",
+      "layout": {
+        "row": "Row_2",
+        "columns": null
+      }
+    },
+    {
+      "type": "checkbox",
+      "key": "simulateDispatchError",
+      "label": "DEMO ONLY: keep simulated rejection active",
+      "defaultValue": false,
+      "id": "Field_dispatch-retry_3",
+      "layout": {
+        "row": "Row_3",
+        "columns": null
+      }
+    }
+  ],
+  "type": "default",
+  "schemaVersion": 18
+}
