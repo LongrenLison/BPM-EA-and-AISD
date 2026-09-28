@@ -1,0 +1,63 @@
+{
+  "id": "clinic-letter-clinical-approval-sprint02",
+  "components": [
+    {
+      "type": "textarea",
+      "id": "Field_delayReason",
+      "key": "delayReason",
+      "label": "Valid delay reason (optional; demo only)",
+      "defaultValue": "",
+      "validate": {
+        "required": false,
+        "maxLength": 500
+      },
+      "layout": {
+        "row": "Row_Field_delayReason",
+        "columns": null
+      }
+    },
+    {
+      "type": "text",
+      "id": "Field_approval_context",
+      "text": "Letter type: {{letterType}}\n\nConsultation: {{clinicalSummary}}\n\nDiagnosis: {{diagnosis}}\n\nClinical findings: {{clinicalFindings}}\n\nTreatment decisions: {{treatmentDecisions}}\n\nFollow-up: {{followUpPlan}}\n\nInstructions: {{communicationInstructions}}\n\nConsultant-selected recipients: {{intendedRecipients}}\n\nReview all content before deciding.",
+      "layout": {
+        "row": "Row_context",
+        "columns": null
+      }
+    },
+    {
+      "type": "text",
+      "text": "Only the authorised Consultant may approve. Candidate groups require actual identity and permissions setup.",
+      "id": "Field_clinical-approval_0",
+      "layout": {
+        "row": "Row_0",
+        "columns": null
+      }
+    },
+    {
+      "type": "checkbox",
+      "key": "clinicalApproved",
+      "label": "Clinically approved",
+      "defaultValue": false,
+      "id": "Field_clinical-approval_1",
+      "layout": {
+        "row": "Row_1",
+        "columns": null
+      }
+    },
+    {
+      "type": "textarea",
+      "key": "rejectionReason",
+      "label": "Correction / rejection reason",
+      "defaultValue": "",
+      "id": "Field_clinical-approval_2",
+      "layout": {
+        "row": "Row_2",
+        "columns": null
+      }
+    }
+  ],
+  "type": "default",
+  "schemaVersion": 18,
+  "executionPlatform": "Camunda Cloud"
+}

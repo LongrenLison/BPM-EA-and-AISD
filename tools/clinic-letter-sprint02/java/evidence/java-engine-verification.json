@@ -1,0 +1,349 @@
+{
+  "startedAt": "2026-09-28T06:30:36.347Z",
+  "engineVersion": "8.10.0-alpha5",
+  "worker": "Actual Java SDK worker, no Node job completion",
+  "isolatedJobTypes": true,
+  "scenarios": [
+    {
+      "name": "NORMAL_FORMAL",
+      "key": "2251799813692935",
+      "clinicLetterId": "DEMO-JAVA-NORMAL_FORMAL-1790577036466",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin"
+      ],
+      "done": [
+        "2251799813692969",
+        "2251799813692993",
+        "2251799813693004"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:30:36.493836900Z",
+        "draftCompletedAt": "2026-09-28T14:30:36.764@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:30:37.591@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:30:38.411@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:30:38.453217700Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "NORMAL_DEMO",
+      "key": "2251799813693040",
+      "clinicLetterId": "DEMO-JAVA-NORMAL_DEMO-1790577039729",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin"
+      ],
+      "done": [
+        "2251799813693074",
+        "2251799813693099",
+        "2251799813693119"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:30:39.743154200Z",
+        "draftCompletedAt": "2026-09-28T14:30:40.282@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:30:41.115@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:30:41.66@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:30:41.671247Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "CLINICAL_REWORK",
+      "key": "2251799813693148",
+      "clinicLetterId": "DEMO-JAVA-CLINICAL_REWORK-1790577042207",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Draft",
+        "Approve",
+        "Admin"
+      ],
+      "done": [
+        "2251799813693182",
+        "2251799813693206",
+        "2251799813693227",
+        "2251799813693246",
+        "2251799813693259"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:30:43.591968900Z",
+        "draftCompletedAt": "2026-09-28T14:30:44.681@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:30:46.04@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:30:46.867@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:30:46.883150100Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "SECRETARY_CLINICAL_CONCERN",
+      "key": "2251799813693293",
+      "clinicLetterId": "DEMO-JAVA-SECRETARY_CLINICAL_CONCERN-1790577047693",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin",
+        "Draft",
+        "Approve",
+        "Admin"
+      ],
+      "done": [
+        "2251799813693327",
+        "2251799813693358",
+        "2251799813693370",
+        "2251799813693390",
+        "2251799813693413",
+        "2251799813693424"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:30:50.700210900Z",
+        "draftCompletedAt": "2026-09-28T14:30:51.515@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:30:52.617@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:30:53.434@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:30:53.444060Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "ADMIN_REWORK",
+      "key": "2251799813693456",
+      "clinicLetterId": "DEMO-JAVA-ADMIN_REWORK-1790577053985",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin",
+        "Admin"
+      ],
+      "done": [
+        "2251799813693492",
+        "2251799813693518",
+        "2251799813693531",
+        "2251799813693553"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:30:54.002207900Z",
+        "draftCompletedAt": "2026-09-28T14:30:55.33@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:30:56.154@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:30:57.536@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:30:57.546615200Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "BUSINESS_RETRY",
+      "key": "2251799813693581",
+      "clinicLetterId": "DEMO-JAVA-BUSINESS_RETRY-1790577058591",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin",
+        "Retry",
+        "Retry"
+      ],
+      "done": [
+        "2251799813693615",
+        "2251799813693646",
+        "2251799813693658",
+        "2251799813693679",
+        "2251799813693701"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:30:58.606054500Z",
+        "draftCompletedAt": "2026-09-28T14:30:59.143@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:31:00.225@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:31:01.045@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:31:02.687166600Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "TECHNICAL_RETRY",
+      "key": "2251799813693728",
+      "clinicLetterId": "DEMO-JAVA-TECHNICAL_RETRY-1790577063494",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin"
+      ],
+      "done": [
+        "2251799813693763",
+        "2251799813693794",
+        "2251799813693805"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:31:03.771710400Z",
+        "draftCompletedAt": "2026-09-28T14:31:04.046@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:31:04.589@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:31:05.398@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:31:10.438498300Z",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    },
+    {
+      "name": "DELAY",
+      "key": "2251799813693860",
+      "clinicLetterId": "DEMO-JAVA-DELAY-1790577070986",
+      "steps": [
+        "Draft",
+        "Approve",
+        "Admin"
+      ],
+      "done": [
+        "2251799813693894",
+        "2251799813694110",
+        "2251799813694132"
+      ],
+      "status": "PASS",
+      "metadata": {
+        "dispatchStatus": "SIMULATED_SENT",
+        "distributionMethod": "SIMULATED_LOCAL",
+        "draftStartedAt": "2026-09-28T06:31:11.267402200Z",
+        "draftCompletedAt": "2026-09-28T14:31:42.662@Asia/Shanghai",
+        "approvedAt": "2026-09-28T14:31:43.219@Asia/Shanghai",
+        "administrativeProcessedAt": "2026-09-28T14:31:44.31@Asia/Shanghai",
+        "letterSentAt": "2026-09-28T06:31:44.321366400Z",
+        "reminderStatus": "SIMULATED_AUTOMATED_NOTIFICATION",
+        "oneMonthNotificationStatus": "SIMULATED_AUTOMATED_NOTIFICATION",
+        "threeMonthNotificationStatus": "SIMULATED_AUTOMATED_NOTIFICATION",
+        "simulateTechnicalFailuresRemaining": 0
+      },
+      "endState": "COMPLETED",
+      "activeTasks": 0,
+      "activeIncidents": 0
+    }
+  ],
+  "status": "PASS",
+  "originalModelSha256": {
+    "formal": "79e839d341cb7bc6118c87ccbcf602e6818ac7915f881dae6b9a41aee0b6c5b8",
+    "demo": "41f929921836ab8cd26e3dc1441a2427f84d179259935cf79aaa0e8220ffc2ec"
+  },
+  "deployment": {
+    "deploymentKey": "2251799813692934",
+    "tenantId": "<default>",
+    "deployments": [
+      {
+        "processDefinition": {
+          "processDefinitionId": "Process_ClinicLetterSprint02JavaVerification",
+          "processDefinitionVersion": 1,
+          "resourceName": "java-normal.bpmn",
+          "tenantId": "<default>",
+          "processDefinitionKey": "2251799813691486"
+        },
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": null,
+        "resource": null
+      },
+      {
+        "processDefinition": {
+          "processDefinitionId": "Process_ClinicLetterSprint02DemoJavaVerification",
+          "processDefinitionVersion": 1,
+          "resourceName": "java-demo.bpmn",
+          "tenantId": "<default>",
+          "processDefinitionKey": "2251799813691487"
+        },
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": null,
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "clinic-letter-dispatch-retry-sprint02",
+          "version": 4,
+          "resourceName": "clinic-letter-dispatch-retry-sprint02.form",
+          "tenantId": "<default>",
+          "formKey": "2251799813691488"
+        },
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "clinic-letter-admin-check-sprint02",
+          "version": 4,
+          "resourceName": "clinic-letter-admin-check-sprint02.form",
+          "tenantId": "<default>",
+          "formKey": "2251799813691489"
+        },
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "clinic-letter-clinical-approval-sprint02",
+          "version": 4,
+          "resourceName": "clinic-letter-clinical-approval-sprint02.form",
+          "tenantId": "<default>",
+          "formKey": "2251799813691490"
+        },
+        "resource": null
+      },
+      {
+        "processDefinition": null,
+        "decisionDefinition": null,
+        "decisionRequirements": null,
+        "form": {
+          "formId": "clinic-letter-draft-sprint02",
+          "version": 4,
+          "resourceName": "clinic-letter-draft-sprint02.form",
+          "tenantId": "<default>",
+          "formKey": "2251799813691491"
+        },
+        "resource": null
+      }
+    ]
+  },
+  "finishedAt": "2026-09-28T06:31:45.383Z"
+}
