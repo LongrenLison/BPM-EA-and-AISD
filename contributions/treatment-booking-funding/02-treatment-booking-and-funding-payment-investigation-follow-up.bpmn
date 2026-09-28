@@ -12,12 +12,12 @@
   <bpmn:collaboration id="Collab_Treatment">
     <bpmn:participant id="Hospital_Treatment" name="Hospital Patient Administration System" processRef="Process_Treatment" />
     <bpmn:participant id="Patient_Treatment" name="Patient" processRef="Process_Patient_Swimlane" />
-    <bpmn:participant id="External_Treatment" name="Treatment &amp; Lab Services" processRef="Process_External_Treatment_Swimlane" />
+    <bpmn:participant id="External_Treatment" name="Treatment &#38; Lab Services" processRef="Process_External_Treatment_Swimlane" />
     <bpmn:participant id="PSP" name="Payment Provider (PSP)" processRef="Process_PSP_Swimlane" />
-    <bpmn:messageFlow id="MF_CapacityRequest" name="Capacity request" sourceRef="CheckCapacity" targetRef="External_Treatment" messageRef="Message_MF_CapacityRequest" />
-    <bpmn:messageFlow id="MF_PaymentRequest" name="Secure payment request" sourceRef="TakePayment" targetRef="PSP" messageRef="Message_MF_PaymentRequest" />
-    <bpmn:messageFlow id="MF_PaymentStatus" name="Payment status and transaction reference" sourceRef="PSP" targetRef="AwaitProviderStatus" messageRef="Message_MF_PaymentStatus" />
-    <bpmn:messageFlow id="MF_PaymentIssueNotice" name="Payment issue notification" sourceRef="NotifyPaymentIssue" targetRef="Patient_Treatment" messageRef="Message_MF_PaymentIssueNotice" />
+    <bpmn:messageFlow id="MF_CapacityRequest" sourceRef="CheckCapacity" targetRef="External_Treatment" messageRef="Message_MF_CapacityRequest" />
+    <bpmn:messageFlow id="MF_PaymentRequest" sourceRef="TakePayment" targetRef="PSP" messageRef="Message_MF_PaymentRequest" />
+    <bpmn:messageFlow id="MF_PaymentStatus" sourceRef="PSP" targetRef="AwaitProviderStatus" messageRef="Message_MF_PaymentStatus" />
+    <bpmn:messageFlow id="MF_PaymentIssueNotice" sourceRef="NotifyPaymentIssue" targetRef="Patient_Treatment" messageRef="Message_MF_PaymentIssueNotice" />
   </bpmn:collaboration>
   <bpmn:process id="Process_Treatment" name="Treatment booking and funding" isExecutable="true">
     <bpmn:laneSet id="Lanes_Treatment">
@@ -200,7 +200,7 @@
       <bpmn:lane id="Lane_Patient" />
     </bpmn:laneSet>
   </bpmn:process>
-  <bpmn:process id="Process_External_Treatment_Swimlane" name="Treatment &amp; Lab Services" isExecutable="false">
+  <bpmn:process id="Process_External_Treatment_Swimlane" name="Treatment &#38; Lab Services" isExecutable="false">
     <bpmn:laneSet id="LaneSet_External_Treatment">
       <bpmn:lane id="Lane_External_Treatment" />
     </bpmn:laneSet>

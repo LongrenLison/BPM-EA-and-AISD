@@ -2,12 +2,6 @@
 
 本目录是修改版交付包。用户提供的原始 BPMN 文件未覆盖。
 
-## 组内合并说明
-
-这是独立的 02 流程贡献，放在 `contributions/` 供审阅。仓库原有的 `models/00-integrated-hospital-patient-administration.bpmn`、`forms/` 和 `workers/` 均未修改；本分支合入后，也不会自动更新组员的总流程。若最终只交一张总图，需由组内将这里的治疗预约、付款消息、容量错误和重试逻辑按现有总流程的 ID 与变量映射进去，再部署核对。
-
-本目录的 Worker 与仓库根目录的 Worker 订阅了部分相同的 job type。演示本独立流程时，请只运行本目录的 Worker；不要同时运行两个 Worker，以免不同演示规则竞争同一任务。
-
 ## 文件
 
 - `02-treatment-booking-and-funding-payment-investigation-follow-up.bpmn`：修改后的 BPMN 流程。
