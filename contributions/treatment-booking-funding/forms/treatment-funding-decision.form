@@ -1,0 +1,12 @@
+{
+  "components": [
+    { "label": "Advance payment required", "type": "checkbox", "key": "advancePaymentRequired", "id": "advancePaymentRequired" },
+    { "label": "Funding decision notes", "type": "textarea", "key": "fundingDecisionNotes", "validate": { "required": true }, "id": "fundingDecisionNotes" }
+  ],
+  "type": "default",
+  "id": "treatment-funding-decision",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" },
+  "schemaVersion": 19
+}

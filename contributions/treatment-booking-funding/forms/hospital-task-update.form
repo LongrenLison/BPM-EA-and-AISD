@@ -1,0 +1,12 @@
+{
+  "components": [
+    { "label": "Outcome", "type": "textfield", "key": "taskOutcome", "validate": { "required": true }, "id": "taskOutcome" },
+    { "label": "Notes", "type": "textarea", "key": "taskNotes", "id": "taskNotes" }
+  ],
+  "type": "default",
+  "id": "hospital-task-update",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" },
+  "schemaVersion": 19
+}

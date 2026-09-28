@@ -1,0 +1,12 @@
+{
+  "components": [
+    { "label": "Urgent override rationale", "type": "textarea", "key": "urgentOverrideRationale", "validate": { "required": true }, "id": "urgentOverrideRationale" },
+    { "label": "Authorised by", "type": "textfield", "key": "urgentOverrideAuthoriser", "validate": { "required": true }, "id": "urgentOverrideAuthoriser" }
+  ],
+  "type": "default",
+  "id": "treatment-urgent-override",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" },
+  "schemaVersion": 19
+}
