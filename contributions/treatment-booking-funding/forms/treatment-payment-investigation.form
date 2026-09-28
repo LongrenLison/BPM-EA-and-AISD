@@ -1,0 +1,50 @@
+{
+  "components": [
+    {
+      "label": "Investigation or notification outcome",
+      "type": "textarea",
+      "key": "paymentInvestigationOutcome",
+      "validate": {
+        "required": true
+      },
+      "id": "paymentInvestigationOutcome"
+    },
+    {
+      "label": "Payment status",
+      "type": "select",
+      "key": "paymentStatus",
+      "values": [
+        {
+          "label": "Completed",
+          "value": "completed"
+        },
+        {
+          "label": "Investigate",
+          "value": "investigate"
+        },
+        {
+          "label": "Declined",
+          "value": "declined"
+        },
+        {
+          "label": "Cancelled",
+          "value": "cancelled"
+        },
+        {
+          "label": "Urgent clinical override",
+          "value": "urgent"
+        }
+      ],
+      "id": "paymentStatus"
+    }
+  ],
+  "type": "default",
+  "id": "treatment-payment-investigation",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.51.0"
+  },
+  "schemaVersion": 19
+}
