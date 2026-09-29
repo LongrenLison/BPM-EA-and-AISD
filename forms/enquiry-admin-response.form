@@ -1,8 +1,0 @@
-{
-  "components": [
-    { "label": "Authorised administrative response", "type": "textarea", "key": "administrativeResponse", "validate": { "required": true }, "id": "administrativeResponse" },
-    { "label": "Response recorded", "type": "checkbox", "key": "administrativeResponseRecorded", "id": "administrativeResponseRecorded" }
-  ],
-  "type": "default", "id": "enquiry-admin-response", "executionPlatform": "Camunda Cloud", "executionPlatformVersion": "8.10.0",
-  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" }, "schemaVersion": 19
-}

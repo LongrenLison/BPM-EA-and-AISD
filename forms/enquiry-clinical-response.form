@@ -1,8 +1,0 @@
-{
-  "components": [
-    { "label": "Authorised clinical response", "type": "textarea", "key": "clinicalResponse", "validate": { "required": true }, "id": "clinicalResponse" },
-    { "label": "Advice authorised", "type": "checkbox", "key": "clinicalAdviceAuthorised", "id": "clinicalAdviceAuthorised" }
-  ],
-  "type": "default", "id": "enquiry-clinical-response", "executionPlatform": "Camunda Cloud", "executionPlatformVersion": "8.10.0",
-  "exporter": { "name": "Camunda Modeler", "version": "5.51.0" }, "schemaVersion": 19
-}
